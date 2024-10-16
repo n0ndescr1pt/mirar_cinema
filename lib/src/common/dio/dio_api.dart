@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:mirar/src/common/dio/dio_exeptions.dart';
+import 'package:mirar/src/common/dio/dio_exceptions.dart';
 import 'package:mirar/src/resources/constants.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
@@ -99,7 +99,7 @@ class ApiProvider {
       case DioExceptionType.unknown:
         throw NoInternetConnectionException(e.requestOptions);
       case DioExceptionType.badCertificate:
-        throw BadCertificateExeption(e.requestOptions);
+        throw BadCertificateException(e.requestOptions);
       case DioExceptionType.connectionError:
         throw InternalServerErrorException(e.requestOptions);
       case DioExceptionType.badResponse:

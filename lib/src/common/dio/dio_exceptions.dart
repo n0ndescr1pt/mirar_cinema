@@ -63,8 +63,8 @@ class TimeOutException extends DioException {
   }
 }
 
-class BadCertificateExeption extends DioException {
-  BadCertificateExeption(RequestOptions r) : super(requestOptions: r);
+class BadCertificateException extends DioException {
+  BadCertificateException(RequestOptions r) : super(requestOptions: r);
 
   @override
   String toString() {
