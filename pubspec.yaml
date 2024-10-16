@@ -12,6 +12,7 @@ dependencies:
   flutter_inappwebview: ^6.1.5
   google_nav_bar: ^5.0.6
   line_icons: ^2.0.3
+  searchfield: ^1.1.6
 
 dev_dependencies:
   flutter_test:
@@ -22,3 +23,7 @@ flutter:
   assets:
     - shorebird.yaml
   uses-material-design: true
+  fonts:
+    - family: Halvar
+      fonts:
+        - asset: assets/fonts/HalvarBreit-Blk.ttf

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:mirar/src/features/films/view/search_screen.dart';
 import 'package:mirar/src/theme/app_colors.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,10 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'Лента',
       style: TextStyle(color: AppColors.text),
     ),
-    const Text(
-      'Фильмы',
-      style: TextStyle(color: AppColors.text),
-    ),
+    const SearchScreen(),
     const Text(
       'Профиль',
       style: TextStyle(color: AppColors.text),
