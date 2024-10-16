@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mirar/src/features/films/view/film_screen.dart';
+import 'package:mirar/src/features/home/view/home_screen.dart';
+import 'package:mirar/src/theme/theme.dart';
 
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
@@ -11,6 +12,9 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: FilmScreen());
+    return MaterialApp(
+      theme: theme,
+      home: const HomeScreen(),
+    );
   }
 }

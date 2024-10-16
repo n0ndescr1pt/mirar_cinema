@@ -24,12 +24,11 @@ class _FilmScreenState extends State<FilmScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Column(
-          children: [
-            Expanded(
-                child: InAppWebView(
-              initialData: InAppWebViewInitialData(data: """
+      body: Column(
+        children: [
+          Expanded(
+              child: InAppWebView(
+            initialData: InAppWebViewInitialData(data: """
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,12 +41,11 @@ class _FilmScreenState extends State<FilmScreen> {
 <script src="https://kinobox.tv/kinobox.min.js"></script>
 </body>
 </html>"""),
-              onWebViewCreated: (InAppWebViewController controller) {
-                webView = controller;
-              },
-            )),
-          ],
-        ),
+            onWebViewCreated: (InAppWebViewController controller) {
+              webView = controller;
+            },
+          )),
+        ],
       ),
     );
   }
