@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mirar/src/features/films/view/film_screen.dart';
 
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
@@ -10,12 +11,6 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
-    );
+    return const MaterialApp(home: FilmScreen());
   }
 }
