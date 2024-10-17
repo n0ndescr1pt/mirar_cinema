@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _selectedIndex = 2;
+    _selectedIndex = 1;
   }
 
   final List<Widget> _screens = [

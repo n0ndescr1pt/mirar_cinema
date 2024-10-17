@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mirar/src/features/films/view/widgets/films_category.dart';
+import 'package:mirar/src/features/films/view/widgets/preview_card.dart';
 import 'package:mirar/src/features/films/view/widgets/search.dart';
 import 'package:mirar/src/theme/app_colors.dart';
 
@@ -24,13 +26,16 @@ class _SearchScreenState extends State<SearchScreen> {
               pinned: true,
               flexibleSpace: Search(),
             ),
-            SliverToBoxAdapter(
-              child: Text(
-                'ПОПУЛЯРНО',
-                style: Theme.of(context)
-                    .textTheme
-                    .displaySmall
-                    ?.copyWith(color: AppColors.text),
+            const SliverToBoxAdapter(
+              child: FilmsCategory(
+                title: 'Популярно',
+                films: [],
+              ),
+            ),
+            const SliverToBoxAdapter(
+              child: FilmsCategory(
+                title: 'Фильмы',
+                films: [],
               ),
             ),
             SliverList(
@@ -38,7 +43,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 (BuildContext context, int index) {
                   return Container(
                     color: Colors.black12,
-                    height: 100.0,
+                    height: 100,
                     child: Center(
                       child: Text('$index',
                           textScaler: const TextScaler.linear(5)),
