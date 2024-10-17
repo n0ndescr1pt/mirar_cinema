@@ -29,18 +29,18 @@ class _FilmScreenState extends State<FilmScreen> {
           Expanded(
               child: InAppWebView(
             initialData: InAppWebViewInitialData(data: """
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div data-kinobox="auto" data-query="The boys"></div>
-<script src="https://kinobox.tv/kinobox.min.js"></script>
-</body>
-</html>"""),
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Document</title>
+            </head>
+            <body>
+                <div data-kinobox="auto" data-query="The boys"></div>
+            <script src="https://kinobox.tv/kinobox.min.js"></script>
+            </body>
+            </html>"""),
             onWebViewCreated: (InAppWebViewController controller) {
               webView = controller;
             },

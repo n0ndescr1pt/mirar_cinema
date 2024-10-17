@@ -28,9 +28,11 @@ class FilmsCategory extends StatelessWidget {
               child: ListView.separated(
                 separatorBuilder: (context, index) => const SizedBox(width: 8),
                 scrollDirection: Axis.horizontal,
-                itemCount: 5,
+                itemCount: films.length,
                 itemBuilder: (context, index) {
-                  return PreviewCard();
+                  return PreviewCard(
+                    poster: films[index],
+                  );
                 },
               ),
             ),

@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:mirar/src/features/films/model/preview_model.dart';
 import 'package:mirar/src/theme/app_colors.dart';
 
 class PreviewCard extends StatelessWidget {
-  const PreviewCard({super.key});
+  final PreviewModel poster;
+  const PreviewCard({super.key, required this.poster});
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +20,7 @@ class PreviewCard extends StatelessWidget {
               decoration:
                   const BoxDecoration(color: AppColors.activeIconBackground),
               child: CachedNetworkImage(
-                imageUrl:
-                    "https://image.tmdb.org/t/p/w500/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg",
+                imageUrl: "https://image.tmdb.org/t/p/w500${poster.posterPath}",
                 progressIndicatorBuilder: (context, url, downloadProgress) =>
                     Center(
                   child: SizedBox(
@@ -31,16 +32,16 @@ class PreviewCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
           ),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 132),
+          constraints: const BoxConstraints(maxWidth: 132),
           child: Text(
-            "The Batman a big dick sucker ",
+            poster.title,
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge

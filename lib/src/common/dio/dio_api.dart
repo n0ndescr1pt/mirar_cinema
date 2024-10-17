@@ -1,5 +1,10 @@
 import 'dart:async';
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
+import 'package:dio_http2_adapter/dio_http2_adapter.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mirar/src/common/dio/dio_exceptions.dart';
 import 'package:mirar/src/resources/constants.dart';
@@ -18,6 +23,7 @@ class ApiProvider {
           connectTimeout: const Duration(seconds: 20),
           sendTimeout: const Duration(seconds: 20),
         )) {
+          
     //_dio.interceptors.add(
     //  TalkerDioLogger(
     //    talker: _talker,

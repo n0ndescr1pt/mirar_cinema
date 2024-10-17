@@ -29,6 +29,7 @@ class TMDBDataSource implements ITMDBDataSource {
         return [];
       }
       final result = response.data['result'] as List<dynamic>;
+      print(result);
       final list = result.map((e) => PreviewDTO.fromJson(e)).toList();
       return list;
     } catch (e) {
@@ -47,6 +48,7 @@ class TMDBDataSource implements ITMDBDataSource {
         return [];
       }
       final result = response.data['result'] as List<dynamic>;
+      print(result);
       final list = result.map((e) => PreviewDTO.fromJson(e)).toList();
       return list;
     } catch (e) {
@@ -65,6 +67,7 @@ class TMDBDataSource implements ITMDBDataSource {
         return [];
       }
       final result = response.data['result'] as List<dynamic>;
+      print(result);
       final list = result.map((e) => PreviewDTO.fromJson(e)).toList();
       return list;
     } catch (e) {

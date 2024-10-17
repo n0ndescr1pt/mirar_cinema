@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mirar/src/features/films/bloc/films/films_bloc.dart';
 import 'package:mirar/src/features/films/view/widgets/films_category.dart';
-import 'package:mirar/src/features/films/view/widgets/preview_card.dart';
 import 'package:mirar/src/features/films/view/widgets/search.dart';
+import 'package:mirar/src/injectable/init_injectable.dart';
 import 'package:mirar/src/theme/app_colors.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -13,47 +15,62 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   @override
+  void initState() {
+    loadFeed();
+    super.initState();
+  }
+
+  void loadFeed() {
+    getIt<FilmsBloc>().add(const FilmsEvent.loadTopRated());
+    getIt<FilmsBloc>().add(const FilmsEvent.loadPopular());
+    getIt<FilmsBloc>().add(const FilmsEvent.loadUpcoming());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            const SliverAppBar(
-              toolbarHeight: 70,
-              backgroundColor: Colors.transparent,
-              floating: true,
-              pinned: true,
-              flexibleSpace: Search(),
-            ),
-            const SliverToBoxAdapter(
-              child: FilmsCategory(
-                title: 'Популярно',
-                films: [],
-              ),
-            ),
-            const SliverToBoxAdapter(
-              child: FilmsCategory(
-                title: 'Фильмы',
-                films: [],
-              ),
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  return Container(
-                    color: Colors.black12,
-                    height: 100,
-                    child: Center(
-                      child: Text('$index',
-                          textScaler: const TextScaler.linear(5)),
+        child: BlocBuilder<FilmsBloc, FilmsState>(
+          bloc: getIt<FilmsBloc>(),
+          builder: (context, state) {
+            return state.maybeWhen(
+              loaded: (topRated, popular, upcoming) {
+                return CustomScrollView(
+                  slivers: [
+                    const SliverAppBar(
+                      toolbarHeight: 70,
+                      backgroundColor: Colors.transparent,
+                      floating: true,
+                      pinned: true,
+                      flexibleSpace: Search(),
                     ),
-                  );
-                },
-                childCount: 20,
-              ),
-            ),
-          ],
+                    SliverToBoxAdapter(
+                      child: FilmsCategory(
+                        title: 'Top Rated',
+                        films: topRated,
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: FilmsCategory(
+                        title: 'Popular',
+                        films: popular,
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: FilmsCategory(
+                        title: 'Upcoming',
+                        films: upcoming,
+                      ),
+                    ),
+                  ],
+                );
+              },
+              orElse: () {
+                return const Text("loading...");
+              },
+            );
+          },
         ),
       ),
     );
