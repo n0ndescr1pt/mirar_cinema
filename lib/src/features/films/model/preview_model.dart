@@ -6,40 +6,38 @@ part 'preview_model.freezed.dart';
 @freezed
 class PreviewModel with _$PreviewModel {
   const factory PreviewModel({
-    required bool adult,
-    required String backdropPath,
-    required List<int> genreIds,
-    required int id,
-    required String originalLanguage,
-    required String originalTitle,
-    required String overview,
-    required double popularity,
-    required String posterPath,
-    required String releaseDate,
-    required String title,
-    required bool video,
-    required double voteAverage,
-    required int voteCount,
+    required int filmId,
+    required String nameRu,
+    required String? nameEn,
+    required String type,
+    required String year,
+    required String? description,
+    required String? filmLength,
+    required List<String> countries,
+    required List<String> genres,
+    required String rating,
+    required int ratingVoteCount,
+    required String posterUrl,
+    required String posterUrlPreview,
   }) = _PreviewModel;
 }
 
 extension PreviewDTOMapper on PreviewDTO {
   PreviewModel toModel() {
     return PreviewModel(
-      adult: adult,
-      backdropPath: backdropPath,
-      genreIds: genreIds,
-      id: id,
-      originalLanguage: originalLanguage,
-      originalTitle: originalTitle,
-      overview: overview,
-      popularity: popularity,
-      posterPath: posterPath,
-      releaseDate: releaseDate,
-      title: title,
-      video: video,
-      voteAverage: voteAverage,
-      voteCount: voteCount,
+      filmId: filmId,
+      nameRu: nameRu,
+      nameEn: nameEn,
+      type: type,
+      year: year,
+      description: description,
+      filmLength: filmLength,
+      countries: countries,
+      genres: genres,
+      rating: rating,
+      ratingVoteCount: ratingVoteCount,
+      posterUrl: posterUrl,
+      posterUrlPreview: posterUrlPreview,
     );
   }
 }

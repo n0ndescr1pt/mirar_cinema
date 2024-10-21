@@ -4,47 +4,70 @@ part 'preview_dto.g.dart';
 
 @JsonSerializable()
 class PreviewDTO {
-  final bool adult;
-  @JsonKey(name: 'backdrop_path')
-  final String backdropPath;
-  @JsonKey(name: 'genre_ids')
-  final List<int> genreIds;
-  final int id;
-  @JsonKey(name: 'original_language')
-  final String originalLanguage;
-  @JsonKey(name: 'original_title')
-  final String originalTitle;
-  final String overview;
-  final double popularity;
-  @JsonKey(name: 'poster_path')
-  final String posterPath;
-  @JsonKey(name: 'release_date')
-  final String releaseDate;
-  final String title;
-  final bool video;
-  @JsonKey(name: 'vote_average')
-  final double voteAverage;
-  @JsonKey(name: 'vote_count')
-  final int voteCount;
+  @JsonKey(name: 'filmId')
+  final int filmId;
+
+  @JsonKey(name: 'nameRu')
+  final String nameRu;
+
+  @JsonKey(name: 'nameEn')
+  final String? nameEn;
+
+  @JsonKey(name: 'type')
+  final String type;
+
+  @JsonKey(name: 'year')
+  final String year;
+
+  @JsonKey(name: 'description')
+  final String? description;
+
+  @JsonKey(name: 'filmLength')
+  final String? filmLength;
+
+  @JsonKey(name: 'countries', fromJson: _countriesFromJson)
+  final List<String> countries;
+
+  @JsonKey(name: 'genres', fromJson: _genresFromJson)
+  final List<String> genres;
+
+  @JsonKey(name: 'rating')
+  final String rating;
+
+  @JsonKey(name: 'ratingVoteCount')
+  final int ratingVoteCount;
+
+  @JsonKey(name: 'posterUrl')
+  final String posterUrl;
+
+  @JsonKey(name: 'posterUrlPreview')
+  final String posterUrlPreview;
 
   PreviewDTO({
-    required this.adult,
-    required this.backdropPath,
-    required this.genreIds,
-    required this.id,
-    required this.originalLanguage,
-    required this.originalTitle,
-    required this.overview,
-    required this.popularity,
-    required this.posterPath,
-    required this.releaseDate,
-    required this.title,
-    required this.video,
-    required this.voteAverage,
-    required this.voteCount,
+    required this.filmId,
+    required this.nameRu,
+    this.nameEn,
+    required this.type,
+    required this.year,
+    this.description,
+    this.filmLength,
+    required this.countries,
+    required this.genres,
+    required this.rating,
+    required this.ratingVoteCount,
+    required this.posterUrl,
+    required this.posterUrlPreview,
   });
 
-  factory PreviewDTO.fromJson(Map<String, dynamic> json) => _$PreviewDTOFromJson(json);
+  static List<String> _genresFromJson(List<dynamic> json) {
+    return json.map((e) => e['genre'] as String).toList();
+  }
 
+  static List<String> _countriesFromJson(List<dynamic> json) {
+    return json.map((e) => e['country'] as String).toList();
+  }
+
+  factory PreviewDTO.fromJson(Map<String, dynamic> json) =>
+      _$PreviewDTOFromJson(json);
   Map<String, dynamic> toJson() => _$PreviewDTOToJson(this);
 }

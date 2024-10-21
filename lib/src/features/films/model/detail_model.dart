@@ -6,138 +6,102 @@ part 'detail_model.freezed.dart';
 @freezed
 class DetailModel with _$DetailModel {
   const factory DetailModel({
-    required bool adult,
-    required String backdropPath,
-    String? belongsToCollection,
-    required int budget,
-    required List<GenreModel> genres,
-    required String homepage,
-    required int id,
-    required String imdbId,
-    required List<String> originCountry,
-    required String originalLanguage,
-    required String originalTitle,
-    required String overview,
-    required double popularity,
-    required String posterPath,
-    required List<ProductionCompanyModel> productionCompanies,
-    required List<ProductionCountryModel> productionCountries,
-    required String releaseDate,
-    required int revenue,
-    required int runtime,
-    required List<SpokenLanguageModel> spokenLanguages,
-    required String status,
-    required String tagline,
-    required String title,
-    required bool video,
-    required double voteAverage,
-    required int voteCount,
+    required int kinopoiskId,
+    required String? kinopoiskHDId,
+    required String? imdbId,
+    required String? nameRu,
+    required String? nameEn,
+    required String? nameOriginal,
+    required String posterUrl,
+    required String posterUrlPreview,
+    required String? coverUrl,
+    required String? logoUrl,
+    required int? reviewsCount,
+    required double? ratingGoodReview,
+    required int? ratingGoodReviewVoteCount,
+    required double? ratingKinopoisk,
+    required int? ratingKinopoiskVoteCount,
+    required double? ratingImdb,
+    required int? ratingImdbVoteCount,
+    required double? ratingFilmCritics,
+    required int? ratingFilmCriticsVoteCount,
+    required double? ratingAwait,
+    required int? ratingAwaitCount,
+    required double? ratingRfCritics,
+    required int? ratingRfCriticsVoteCount,
+    required String webUrl,
+    required int? year,
+    required int? filmLength,
+    required String? slogan,
+    required String? description,
+    required String? shortDescription,
+    required String? editorAnnotation,
+    required bool isTicketsAvailable,
+    required String? productionStatus,
+    required String? type,
+    required String? ratingMpaa,
+    required String? ratingAgeLimits,
+    required bool? hasImax,
+    required bool? has3D,
+    required String? lastSync,
+    required List<String> countries,
+    required List<String> genres,
+    required int? startYear,
+    required int? endYear,
+    required bool? serial,
+    required bool? shortFilm,
+    required bool? completed,
   }) = _DetailModel;
-}
-
-@freezed
-class GenreModel with _$GenreModel {
-  const factory GenreModel({
-    required int id,
-    required String name,
-  }) = _GenreModel;
-}
-
-@freezed
-class ProductionCompanyModel with _$ProductionCompanyModel {
-  const factory ProductionCompanyModel({
-    required int id,
-    required String logoPath,
-    required String name,
-    required String originCountry,
-  }) = _ProductionCompanyModel;
-}
-
-@freezed
-class ProductionCountryModel with _$ProductionCountryModel {
-  const factory ProductionCountryModel({
-    required String iso3166_1,
-    required String name,
-  }) = _ProductionCountryModel;
-}
-
-@freezed
-class SpokenLanguageModel with _$SpokenLanguageModel {
-  const factory SpokenLanguageModel({
-    required String englishName,
-    required String iso639_1,
-    required String name,
-  }) = _SpokenLanguageModel;
 }
 
 extension DetailDTOMapper on DetailDTO {
   DetailModel toModel() {
     return DetailModel(
-      adult: adult,
-      backdropPath: backdropPath,
-      belongsToCollection: belongsToCollection,
-      budget: budget,
-      genres: genres.map((e) => e.toModel()).toList(),
-      homepage: homepage,
-      id: id,
+      kinopoiskId: kinopoiskId,
+      kinopoiskHDId: kinopoiskHDId,
       imdbId: imdbId,
-      originCountry: originCountry,
-      originalLanguage: originalLanguage,
-      originalTitle: originalTitle,
-      overview: overview,
-      popularity: popularity,
-      posterPath: posterPath,
-      productionCompanies: productionCompanies.map((e) => e.toModel()).toList(),
-      productionCountries: productionCountries.map((e) => e.toModel()).toList(),
-      releaseDate: releaseDate,
-      revenue: revenue,
-      runtime: runtime,
-      spokenLanguages: spokenLanguages.map((e) => e.toModel()).toList(),
-      status: status,
-      tagline: tagline,
-      title: title,
-      video: video,
-      voteAverage: voteAverage,
-      voteCount: voteCount,
-    );
-  }
-}
-
-extension GenreDTOMapper on GenreDTO {
-  GenreModel toModel() {
-    return GenreModel(
-      id: id,
-      name: name,
-    );
-  }
-}
-
-extension ProductionCompanyDTOMapper on ProductionCompanyDTO {
-  ProductionCompanyModel toModel() {
-    return ProductionCompanyModel(
-      id: id,
-      logoPath: logoPath,
-      name: name,
-      originCountry: originCountry,
-    );
-  }
-}
-
-extension ProductionCountryDTOMapper on ProductionCountryDTO {
-  ProductionCountryModel toModel() {
-    return ProductionCountryModel(
-      iso3166_1: iso3166_1,
-      name: name,
-    );
-  }
-}
-
-extension SpokenLanguageDTOMapper on SpokenLanguageDTO {
-  SpokenLanguageModel toModel() {
-    return SpokenLanguageModel(
-      englishName: englishName,
-      iso639_1: iso639_1,
-      name: name,
+      nameRu: nameRu,
+      nameEn: nameEn,
+      nameOriginal: nameOriginal,
+      posterUrl: posterUrl,
+      posterUrlPreview: posterUrlPreview,
+      coverUrl: coverUrl,
+      logoUrl: logoUrl,
+      reviewsCount: reviewsCount,
+      ratingGoodReview: ratingGoodReview,
+      ratingGoodReviewVoteCount: ratingGoodReviewVoteCount,
+      ratingKinopoisk: ratingKinopoisk,
+      ratingKinopoiskVoteCount: ratingKinopoiskVoteCount,
+      ratingImdb: ratingImdb,
+      ratingImdbVoteCount: ratingImdbVoteCount,
+      ratingFilmCritics: ratingFilmCritics,
+      ratingFilmCriticsVoteCount: ratingFilmCriticsVoteCount,
+      ratingAwait: ratingAwait,
+      ratingAwaitCount: ratingAwaitCount,
+      ratingRfCritics: ratingRfCritics,
+      ratingRfCriticsVoteCount: ratingRfCriticsVoteCount,
+      webUrl: webUrl,
+      year: year,
+      filmLength: filmLength,
+      slogan: slogan,
+      description: description,
+      shortDescription: shortDescription,
+      editorAnnotation: editorAnnotation,
+      isTicketsAvailable: isTicketsAvailable,
+      productionStatus: productionStatus,
+      type: type,
+      ratingMpaa: ratingMpaa,
+      ratingAgeLimits: ratingAgeLimits,
+      hasImax: hasImax,
+      has3D: has3D,
+      lastSync: lastSync,
+      countries: countries,
+      genres: genres,
+      startYear: startYear,
+      endYear: endYear,
+      serial: serial,
+      shortFilm: shortFilm,
+      completed: completed,
     );
   }
 }

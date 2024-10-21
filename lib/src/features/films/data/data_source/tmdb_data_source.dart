@@ -3,7 +3,7 @@ import 'package:mirar/src/common/dio/dio_api.dart';
 import 'package:mirar/src/features/films/model/dto/detail_dto.dart';
 import 'package:mirar/src/features/films/model/dto/preview_dto.dart';
 
-abstract interface class ITMDBDataSource {
+abstract interface class IKinopoiskDataSource {
   Future<List<PreviewDTO>> fetchPopular();
   Future<List<PreviewDTO>> fetchTopRated();
   Future<List<PreviewDTO>> fetchUpcoming();
@@ -11,10 +11,10 @@ abstract interface class ITMDBDataSource {
   Future<List<PreviewDTO>> searchFilms(String title);
 }
 
-@Injectable(as: ITMDBDataSource, env: [Environment.prod])
-class TMDBDataSource implements ITMDBDataSource {
+@Injectable(as: IKinopoiskDataSource, env: [Environment.prod])
+class KinopoiskDataSource implements IKinopoiskDataSource {
   final ApiProvider _apiProvider;
-  const TMDBDataSource({
+  const KinopoiskDataSource({
     required ApiProvider apiProvider,
   }) : _apiProvider = apiProvider;
 
@@ -22,7 +22,7 @@ class TMDBDataSource implements ITMDBDataSource {
   Future<List<PreviewDTO>> fetchPopular() async {
     try {
       final response = await _apiProvider.apiCall(
-        "/movie/popular",
+        "/movie/popular?api_key=0a913bff75919031103208bb1b2963ef",
         requestType: RequestType.get,
       );
       if (response.data == null) {
@@ -41,7 +41,7 @@ class TMDBDataSource implements ITMDBDataSource {
   Future<List<PreviewDTO>> fetchTopRated() async {
     try {
       final response = await _apiProvider.apiCall(
-        "/movie/top_rated",
+        "/movie/top_rated?api_key=0a913bff75919031103208bb1b2963ef",
         requestType: RequestType.get,
       );
       if (response.data == null) {
@@ -60,7 +60,7 @@ class TMDBDataSource implements ITMDBDataSource {
   Future<List<PreviewDTO>> fetchUpcoming() async {
     try {
       final response = await _apiProvider.apiCall(
-        "/movie/upcoming",
+        "/movie/upcoming?api_key=0a913bff75919031103208bb1b2963ef",
         requestType: RequestType.get,
       );
       if (response.data == null) {
@@ -79,10 +79,10 @@ class TMDBDataSource implements ITMDBDataSource {
   Future<DetailDTO> fetchDetailFilm(String id) async {
     try {
       final response = await _apiProvider.apiCall(
-        "/movie/$id",
+        "/api/v2.2/films/$id",
         requestType: RequestType.get,
       );
-      final result = response.data['result'] as Map<String, dynamic>;
+      final result = response.data as Map<String, dynamic>;
       final detail = DetailDTO.fromJson(result);
       return detail;
     } catch (e) {
@@ -94,14 +94,14 @@ class TMDBDataSource implements ITMDBDataSource {
   Future<List<PreviewDTO>> searchFilms(String title) async {
     try {
       final response = await _apiProvider.apiCall(
-        "/search/movie",
-        queryParameters: {"query": title},
+        "/api/v2.1/films/search-by-keyword",
+        queryParameters: {"keyword": title},
         requestType: RequestType.get,
       );
       if (response.data == null) {
         return [];
       }
-      final result = response.data['result'] as dynamic;
+      final result = response.data['films'] as List<dynamic>;
       final list = result.map((e) => PreviewDTO.fromJson(e)).toList();
       return list;
     } catch (e) {

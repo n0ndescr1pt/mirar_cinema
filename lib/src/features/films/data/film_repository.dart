@@ -13,8 +13,8 @@ abstract interface class IFilmRepository {
 
 @Injectable(as: IFilmRepository, env: [Environment.prod])
 class FilmRepository implements IFilmRepository {
-  final ITMDBDataSource _tmdbDataSource;
-  FilmRepository({required ITMDBDataSource tmdbDataSource})
+  final IKinopoiskDataSource _tmdbDataSource;
+  FilmRepository({required IKinopoiskDataSource tmdbDataSource})
       : _tmdbDataSource = tmdbDataSource;
 
   @override

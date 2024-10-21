@@ -56,9 +56,8 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
       final newUpcoming = await _filmRepository.fetchUpcoming();
       emit(FilmsState.loaded(
           topRated: topRated, upcoming: newUpcoming, popular: popular));
-    } catch (e) {
-      _talker.error(e);
-      emit(FilmsState.error(error: e.toString()));
+    } catch (e, st) {
+      _talker.error(e, st);
     }
   }
 }

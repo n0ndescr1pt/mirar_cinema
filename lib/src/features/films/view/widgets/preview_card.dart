@@ -20,7 +20,7 @@ class PreviewCard extends StatelessWidget {
               decoration:
                   const BoxDecoration(color: AppColors.activeIconBackground),
               child: CachedNetworkImage(
-                imageUrl: "https://image.tmdb.org/t/p/w500${poster.posterPath}",
+                imageUrl: poster.posterUrl,
                 progressIndicatorBuilder: (context, url, downloadProgress) =>
                     Center(
                   child: SizedBox(
@@ -41,7 +41,7 @@ class PreviewCard extends StatelessWidget {
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 132),
           child: Text(
-            poster.title,
+            poster.nameRu,
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge

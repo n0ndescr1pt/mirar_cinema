@@ -25,9 +25,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     try {
       final films = await _filmRepository.searchFilms(event.title);
       emit(SearchState.loaded(films: films));
-    } catch (e) {
-      _talker.error(e);
-      emit(SearchState.error(error: e.toString()));
+    } catch (e, st) {
+      _talker.error(e, st);
     }
   }
 }
