@@ -12,76 +12,89 @@ class FilmScreen extends StatefulWidget {
   State<FilmScreen> createState() => _FilmScreenState();
 }
 
-class _FilmScreenState extends State<FilmScreen> {
+class _FilmScreenState extends State<FilmScreen>
+    with SingleTickerProviderStateMixin {
   late InAppWebViewController webView;
+  late AnimationController _animationController;
+  late Animation<double> _animation;
 
   @override
   void initState() {
-    getIt<FilmBloc>().add(FilmEvent.loadDetails(filmId: widget.kinoposikId));
     super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 350),
+      vsync: this,
+    );
+
+    _animation =
+        Tween<double>(begin: 1.0, end: 0.0).animate(_animationController);
+
+    getIt<FilmBloc>().add(FilmEvent.loadDetails(filmId: widget.kinoposikId));
   }
 
   @override
   void dispose() {
+    _animationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            _animationController.forward().then((_) {
+              Navigator.pop(context);
+            });
+          },
+        ),
+      ),
       body: Column(
         children: [
           BlocBuilder<FilmBloc, FilmState>(
             bloc: getIt<FilmBloc>(),
             builder: (context, state) {
               return state.maybeWhen(
-                  orElse: () => Text("loading"),
-                  loaded: (film) => Column(
-                        children: [
-                          Text(film.nameRu ?? ""),
-                          Text(film.description ?? ""),
-                          Text(film.ratingImdb.toString()),
-                        ],
-                      ));
+                orElse: () => const Text("Loading"),
+                loaded: (film) => Column(
+                  children: [
+                    Text(film.nameRu ?? ""),
+                    Text(film.description ?? ""),
+                    Text(film.ratingImdb.toString()),
+                  ],
+                ),
+              );
             },
           ),
-          Expanded(
+          SizedBox(
+            width: 600,
+            height: 240,
+            child: FadeTransition(
+              opacity: _animation,
               child: InAppWebView(
-            initialSettings: InAppWebViewSettings(),
-            initialData: InAppWebViewInitialData(data: """
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Document</title>
-            </head>
-            <body>
-                <div data-kinobox="auto" data-kinopoisk=${widget.kinoposikId}></div>
-            <script src="https://kinobox.tv/kinobox.min.js"></script>
-            </body>
-            </html>"""),
-            onWebViewCreated: (InAppWebViewController controller) {
-              webView = controller;
-            },
-            shouldOverrideUrlLoading:
-                (controller, NavigationAction request) async {
-              // Здесь вы можете изменять заголовки или URL
-              // Например, если вы хотите перенаправить запросы к рекламе:
-              if (request.request.url.toString().contains("starda") ||
-                  request.request.url.toString().contains("ad") ||
-                  request.request.url.toString().contains("banner") ||
-                  request.request.url.toString().contains("advertise")) {
-                return NavigationActionPolicy
-                    .CANCEL; // Отменяем запрос на рекламу
-              }
-
-              // Вы можете добавить другие условия для редиректов
-              return NavigationActionPolicy
-                  .ALLOW; // Разрешаем остальные запросы
-            },
-          )),
+                initialSettings:
+                    InAppWebViewSettings(transparentBackground: true),
+                initialData: InAppWebViewInitialData(data: """
+                  <!DOCTYPE html>
+                  <html lang="en">
+                  <head>
+                      <meta charset="UTF-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                      <title>Document</title>
+                  </head>
+                  <body>
+                      <div data-kinobox="auto" data-kinopoisk=${widget.kinoposikId}></div>
+                <script src="https://kinobox.tv/kinobox.min.js"></script>
+                </body>
+                </html>"""),
+                onWebViewCreated: (InAppWebViewController controller) {
+                  webView = controller;
+                },
+              ),
+            ),
+          ),
         ],
       ),
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mirar/src/features/home/view/home_screen.dart';
+import 'package:mirar/src/app_routes.dart';
 import 'package:mirar/src/theme/theme.dart';
 
 class MainApp extends StatefulWidget {
@@ -12,9 +12,12 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: theme,
-      home: const HomeScreen(),
+    return MaterialApp.router(
+      //localizationsDelegates: AppLocalizations.localizationsDelegates,
+      //supportedLocales: AppLocalizations.supportedLocales,
+      theme: CustomTheme.darkTheme,
+      //locale: locale,
+      routerConfig: router,
     );
   }
 }
