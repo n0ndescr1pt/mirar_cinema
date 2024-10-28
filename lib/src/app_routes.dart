@@ -54,16 +54,6 @@ final GoRouter router = GoRouter(
                       return FilmScreen(
                           kinoposikId: state.pathParameters['kinoposikId']!);
                     },
-                    pageBuilder: (context, state) => CustomTransitionPage<void>(
-                      transitionDuration: Durations.long1,
-                      key: state.pageKey,
-                      child: FilmScreen(
-                        kinoposikId: state.pathParameters['kinoposikId']!,
-                      ),
-                      transitionsBuilder:
-                          (context, animation, secondaryAnimation, child) =>
-                              FadeTransition(opacity: animation, child: child),
-                    ),
                   )
                 ])
           ],

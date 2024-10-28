@@ -17,15 +17,15 @@ class DetailDTO {
   @JsonKey(name: 'nameOriginal')
   final String? nameOriginal;
   @JsonKey(name: 'posterUrl')
-  final String posterUrl;
+  final String? posterUrl;
   @JsonKey(name: 'posterUrlPreview')
-  final String posterUrlPreview;
+  final String? posterUrlPreview;
   @JsonKey(name: 'coverUrl')
   final String? coverUrl;
   @JsonKey(name: 'logoUrl')
   final String? logoUrl;
   @JsonKey(name: 'reviewsCount')
-  final int reviewsCount;
+  final int? reviewsCount;
   @JsonKey(name: 'ratingGoodReview')
   final double? ratingGoodReview;
   @JsonKey(name: 'ratingGoodReviewVoteCount')
@@ -51,7 +51,7 @@ class DetailDTO {
   @JsonKey(name: 'ratingRfCriticsVoteCount')
   final int? ratingRfCriticsVoteCount;
   @JsonKey(name: 'webUrl')
-  final String webUrl;
+  final String? webUrl;
   @JsonKey(name: 'year')
   final int? year;
   @JsonKey(name: 'filmLength')
@@ -65,11 +65,11 @@ class DetailDTO {
   @JsonKey(name: 'editorAnnotation')
   final String? editorAnnotation;
   @JsonKey(name: 'isTicketsAvailable')
-  final bool isTicketsAvailable;
+  final bool? isTicketsAvailable;
   @JsonKey(name: 'productionStatus')
   final String? productionStatus;
   @JsonKey(name: 'type')
-  final String type;
+  final String? type;
   @JsonKey(name: 'ratingMpaa')
   final String? ratingMpaa;
   @JsonKey(name: 'ratingAgeLimits')
@@ -84,7 +84,9 @@ class DetailDTO {
   final List<String> countries;
   @JsonKey(name: 'genres', fromJson: _genresFromJson)
   final List<String> genres;
-  @JsonKey(name: 'startYear', )
+  @JsonKey(
+    name: 'startYear',
+  )
   final int? startYear;
   @JsonKey(name: 'endYear')
   final int? endYear;
