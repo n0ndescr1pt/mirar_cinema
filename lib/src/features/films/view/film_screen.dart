@@ -23,7 +23,9 @@ class _FilmScreenState extends State<FilmScreen>
     'ads-matresh.ru',
     'https://www.serv01001.xyz',
     'https://aj1907.online',
-    'https://vast.ufouxbwn.com'
+    'https://vast.ufouxbwn.com',
+    'aj2635.bid',
+    "/mob.playjusting.com/s"
   ];
   bool showPlayer = true;
   late InAppWebViewController webView;

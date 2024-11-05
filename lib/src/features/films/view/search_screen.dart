@@ -99,15 +99,15 @@ class _SearchScreenState extends State<SearchScreen> {
                             return SliverList(
                               delegate: SliverChildListDelegate(
                                 [
-                                  FilmsCategory(
+                                  const FilmsCategory(
                                     title: 'Top Rated',
                                     films: [],
                                   ),
-                                  FilmsCategory(
+                                  const FilmsCategory(
                                     title: 'Popular',
                                     films: [],
                                   ),
-                                  FilmsCategory(
+                                  const FilmsCategory(
                                     title: 'Upcoming',
                                     films: [],
                                   ),
