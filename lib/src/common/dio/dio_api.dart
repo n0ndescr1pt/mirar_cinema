@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
-import 'package:injectable/injectable.dart';
 import 'package:mirar/src/common/dio/dio_exceptions.dart';
 import 'package:mirar/src/resources/constants.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
-@Injectable(env: [Environment.prod])
 class ApiProvider {
   //final Talker _talker;
   final Dio _dio;

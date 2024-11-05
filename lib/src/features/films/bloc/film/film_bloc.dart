@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:injectable/injectable.dart';
 import 'package:mirar/src/features/films/data/film_repository.dart';
 import 'package:mirar/src/features/films/model/detail_model.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -9,7 +8,6 @@ part 'film_event.dart';
 part 'film_state.dart';
 part 'film_bloc.freezed.dart';
 
-@singleton
 class FilmBloc extends Bloc<FilmEvent, FilmState> {
   final Talker _talker;
   final IFilmRepository _filmRepository;

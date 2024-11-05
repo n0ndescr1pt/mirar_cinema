@@ -1,4 +1,4 @@
-import 'package:injectable/injectable.dart';
+
 import 'package:mirar/src/features/films/data/data_source/tmdb_data_source.dart';
 import 'package:mirar/src/features/films/model/detail_model.dart';
 import 'package:mirar/src/features/films/model/preview_model.dart';
@@ -11,7 +11,6 @@ abstract interface class IFilmRepository {
   Future<List<PreviewModel>> searchFilms(String title);
 }
 
-@Injectable(as: IFilmRepository, env: [Environment.prod])
 class FilmRepository implements IFilmRepository {
   final IKinopoiskDataSource _tmdbDataSource;
   FilmRepository({required IKinopoiskDataSource tmdbDataSource})

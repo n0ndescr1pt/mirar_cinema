@@ -9,7 +9,6 @@ import 'package:mirar/src/features/films/view/widgets/films_category.dart';
 import 'package:mirar/src/features/films/view/widgets/search_bar.dart';
 import 'package:mirar/src/features/films/view/widgets/search_item.dart';
 import 'package:mirar/src/features/films/view/widgets/shimmer_widget.dart';
-import 'package:mirar/src/injectable/init_injectable.dart';
 import 'package:mirar/src/theme/app_colors.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -30,6 +29,7 @@ class _SearchScreenState extends State<SearchScreen> {
     loadFeed();
     super.initState();
   }
+
   void loadFeed() {
     //getIt<FilmsBloc>().add(const FilmsEvent.loadPopular());
   }
@@ -39,13 +39,11 @@ class _SearchScreenState extends State<SearchScreen> {
     super.dispose();
   }
 
-
-
   void _updateSearchResults(String query) {
     if (query.isNotEmpty) {
       if (_debounce?.isActive ?? false) _debounce?.cancel();
       _debounce = Timer(const Duration(milliseconds: 300), () {
-        getIt<SearchBloc>().add(SearchEvent.search(title: query));
+        context.read<SearchBloc>().add(SearchEvent.search(title: query));
       });
     } else {
       setState(() {
@@ -58,7 +56,6 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SearchBloc, SearchState>(
-      bloc: getIt<SearchBloc>(),
       listener: (context, state) {
         state.whenOrNull(loaded: (films) {
           if (_searchController.text.isNotEmpty) {
@@ -92,7 +89,6 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                   SliverToBoxAdapter(
                     child: BlocBuilder<FilmsBloc, FilmsState>(
-                      bloc: getIt<FilmsBloc>(),
                       builder: (context, state) {
                         return state.maybeWhen(
                           loaded: (topRated, upcoming, popular) {

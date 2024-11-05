@@ -4,7 +4,6 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mirar/src/app_routes.dart';
 import 'package:mirar/src/features/films/bloc/film/film_bloc.dart';
-import 'package:mirar/src/injectable/init_injectable.dart';
 
 class FilmScreen extends StatefulWidget {
   final String kinoposikId;
@@ -33,7 +32,9 @@ class _FilmScreenState extends State<FilmScreen>
   void initState() {
     super.initState();
 
-    getIt<FilmBloc>().add(FilmEvent.loadDetails(filmId: widget.kinoposikId));
+    context
+        .read<FilmBloc>()
+        .add(FilmEvent.loadDetails(filmId: widget.kinoposikId));
   }
 
   @override
@@ -53,7 +54,6 @@ class _FilmScreenState extends State<FilmScreen>
         child: Column(
           children: [
             BlocBuilder<FilmBloc, FilmState>(
-              bloc: getIt<FilmBloc>(),
               builder: (context, state) {
                 return state.maybeWhen(
                   orElse: () => const Text("Loading"),

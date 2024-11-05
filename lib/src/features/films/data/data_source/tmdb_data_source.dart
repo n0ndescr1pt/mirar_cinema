@@ -1,4 +1,4 @@
-import 'package:injectable/injectable.dart';
+
 import 'package:mirar/src/common/dio/dio_api.dart';
 import 'package:mirar/src/features/films/model/dto/detail_dto.dart';
 import 'package:mirar/src/features/films/model/dto/preview_dto.dart';
@@ -11,7 +11,6 @@ abstract interface class IKinopoiskDataSource {
   Future<List<PreviewDTO>> searchFilms(String title);
 }
 
-@Injectable(as: IKinopoiskDataSource, env: [Environment.prod])
 class KinopoiskDataSource implements IKinopoiskDataSource {
   final ApiProvider _apiProvider;
   const KinopoiskDataSource({
