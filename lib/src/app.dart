@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mirar/main.dart';
 import 'package:mirar/src/app_routes.dart';
 import 'package:mirar/src/theme/theme.dart';
 
@@ -12,12 +13,16 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      //localizationsDelegates: AppLocalizations.localizationsDelegates,
-      //supportedLocales: AppLocalizations.supportedLocales,
-      theme: CustomTheme.darkTheme,
-      //locale: locale,
-      routerConfig: router,
+    return ReposProviders(
+      child: BlocProviders(
+        child: MaterialApp.router(
+          //localizationsDelegates: AppLocalizations.localizationsDelegates,
+          //supportedLocales: AppLocalizations.supportedLocales,
+          theme: CustomTheme.darkTheme,
+          //locale: locale,
+          routerConfig: router,
+        ),
+      ),
     );
   }
 }
