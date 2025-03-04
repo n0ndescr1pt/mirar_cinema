@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mirar/main.dart';
 import 'package:mirar/src/app_routes.dart';
+import 'package:mirar/src/common/server_api.dart';
 import 'package:mirar/src/theme/theme.dart';
 
 class MainApp extends StatefulWidget {
@@ -11,6 +12,12 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
+  @override
+  void initState() {
+    startLocalServer().then((e) => print("server started"));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ReposProviders(

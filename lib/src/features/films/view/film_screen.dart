@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mirar/src/app_routes.dart';
+import 'package:mirar/src/common/server_api.dart';
 import 'package:mirar/src/features/films/bloc/film/film_bloc.dart';
 
 class FilmScreen extends StatefulWidget {
@@ -15,6 +16,7 @@ class FilmScreen extends StatefulWidget {
 
 class _FilmScreenState extends State<FilmScreen>
     with SingleTickerProviderStateMixin {
+  bool _fileCreated = false;
   final List<String> blockedDomains = [
     'https://mc.yandex.ru',
     'track.adpod.in',
@@ -31,10 +33,18 @@ class _FilmScreenState extends State<FilmScreen>
   @override
   void initState() {
     super.initState();
-
+    _initializeFile();
+    createFile('aboba.html', getPlayerString(widget.kinoposikId));
     context
         .read<FilmBloc>()
         .add(FilmEvent.loadDetails(filmId: widget.kinoposikId));
+  }
+
+  Future<void> _initializeFile() async {
+    await createFile('aboba.html', getPlayerString(widget.kinoposikId));
+    setState(() {
+      _fileCreated = true;
+    });
   }
 
   @override
@@ -67,11 +77,14 @@ class _FilmScreenState extends State<FilmScreen>
                 );
               },
             ),
-            if (showPlayer)
+            if (showPlayer && _fileCreated)
               SizedBox(
                 width: 600,
                 height: 240,
                 child: InAppWebView(
+                  initialUrlRequest: URLRequest(
+                    url: WebUri('http://127.0.0.1:8080/aboba.html'),
+                  ),
                   shouldInterceptRequest: (controller, request) async {
                     String url = request.url.toString();
                     print("aaaaaa             $url");
@@ -92,19 +105,6 @@ class _FilmScreenState extends State<FilmScreen>
                       transparentBackground: true,
                       supportZoom: false,
                       cacheEnabled: false),
-                  initialData: InAppWebViewInitialData(data: """
-                    <!DOCTYPE html>
-                    <html lang="en">
-                    <head>
-                        <meta charset="UTF-8">
-                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <title>Document</title>
-                    </head>
-                    <body>
-                        <div data-kinobox="auto" data-kinopoisk=${widget.kinoposikId}></div>
-                <script src="https://kinobox.tv/kinobox.min.js"></script>
-                </body>
-                </html>"""),
                   onWebViewCreated: (InAppWebViewController controller) {
                     webView = controller;
                   },
