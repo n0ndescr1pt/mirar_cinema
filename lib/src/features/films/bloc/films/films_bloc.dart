@@ -28,8 +28,9 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
     emit(const FilmsState.loading());
     try {
       final newTopRated = await _filmRepository.fetchTopRated();
+      topRated = newTopRated;
       emit(FilmsState.loaded(
-          topRated: newTopRated, upcoming: upcoming, popular: popular));
+          topRated: topRated, upcoming: upcoming, popular: popular));
     } catch (e) {
       _talker.error(e);
       emit(FilmsState.error(error: e.toString()));
@@ -39,9 +40,11 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
   _onLoadPopular(_LoadPopularEvent event, Emitter<FilmsState> emit) async {
     emit(const FilmsState.loading());
     try {
+      print(1);
       final newPopular = await _filmRepository.fetchPopular();
+      popular = newPopular;
       emit(FilmsState.loaded(
-          topRated: topRated, upcoming: upcoming, popular: newPopular));
+          topRated: topRated, upcoming: upcoming, popular: popular));
     } catch (e) {
       _talker.error(e);
       emit(FilmsState.error(error: e.toString()));
@@ -52,8 +55,9 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
     emit(const FilmsState.loading());
     try {
       final newUpcoming = await _filmRepository.fetchUpcoming();
+      upcoming = newUpcoming;
       emit(FilmsState.loaded(
-          topRated: topRated, upcoming: newUpcoming, popular: popular));
+          topRated: topRated, upcoming: upcoming, popular: popular));
     } catch (e, st) {
       _talker.error(e, st);
     }

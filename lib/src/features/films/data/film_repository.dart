@@ -1,6 +1,7 @@
 
 import 'package:mirar/src/features/films/data/data_source/tmdb_data_source.dart';
 import 'package:mirar/src/features/films/model/detail_model.dart';
+import 'package:mirar/src/features/films/model/dto/preview_dto.dart';
 import 'package:mirar/src/features/films/model/preview_model.dart';
 
 abstract interface class IFilmRepository {

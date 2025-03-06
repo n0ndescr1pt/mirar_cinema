@@ -7,43 +7,45 @@ class ShimmerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey[900]!,
-      highlightColor: Colors.grey[600]!,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 12),
-          Text(
-            "Top Rated",
-            style: Theme.of(context)
-                .textTheme
-                .displaySmall
-                ?.copyWith(color: AppColors.text),
-          ),
-          const SizedBox(height: 12),
-          _buildShimmerRow(),
-          const SizedBox(height: 12),
-          Text(
-            "Popular",
-            style: Theme.of(context)
-                .textTheme
-                .displaySmall
-                ?.copyWith(color: AppColors.text),
-          ),
-          const SizedBox(height: 12),
-          _buildShimmerRow(),
-          const SizedBox(height: 12),
-          Text(
-            "Upcoming",
-            style: Theme.of(context)
-                .textTheme
-                .displaySmall
-                ?.copyWith(color: AppColors.text),
-          ),
-          const SizedBox(height: 12),
-          _buildShimmerRow(),
-        ],
+    return SliverToBoxAdapter(
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey[900]!,
+        highlightColor: Colors.grey[600]!,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 12),
+            Text(
+              "Top Rated",
+              style: Theme.of(context)
+                  .textTheme
+                  .displaySmall
+                  ?.copyWith(color: AppColors.text),
+            ),
+            const SizedBox(height: 12),
+            _buildShimmerRow(),
+            const SizedBox(height: 12),
+            Text(
+              "Popular",
+              style: Theme.of(context)
+                  .textTheme
+                  .displaySmall
+                  ?.copyWith(color: AppColors.text),
+            ),
+            const SizedBox(height: 12),
+            _buildShimmerRow(),
+            const SizedBox(height: 12),
+            Text(
+              "Upcoming",
+              style: Theme.of(context)
+                  .textTheme
+                  .displaySmall
+                  ?.copyWith(color: AppColors.text),
+            ),
+            const SizedBox(height: 12),
+            _buildShimmerRow(),
+          ],
+        ),
       ),
     );
   }

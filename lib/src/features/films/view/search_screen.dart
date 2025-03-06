@@ -31,8 +31,11 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void loadFeed() {
-    //getIt<FilmsBloc>().add(const FilmsEvent.loadPopular());
+    context.read<FilmsBloc>().add(const FilmsEvent.loadPopular());
+    context.read<FilmsBloc>().add(const FilmsEvent.loadTopRated());
+    context.read<FilmsBloc>().add(const FilmsEvent.loadUpcoming());
   }
+
   @override
   void dispose() {
     _debounce?.cancel();
@@ -87,34 +90,36 @@ class _SearchScreenState extends State<SearchScreen> {
                         onSearchChanged: _updateSearchResults,
                         controller: _searchController),
                   ),
-                  SliverToBoxAdapter(
-                    child: BlocBuilder<FilmsBloc, FilmsState>(
-                      builder: (context, state) {
-                        return state.maybeWhen(
-                          loaded: (topRated, upcoming, popular) {
-                            return SliverList(
+                  BlocBuilder<FilmsBloc, FilmsState>(
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        loaded: (topRated, upcoming, popular) {
+                          return SliverPadding(
+                            padding: const EdgeInsets.only(left: 12, top: 12),
+                            sliver: SliverList(
                               delegate: SliverChildListDelegate(
                                 [
-                                  const FilmsCategory(
-                                    title: 'Top Rated',
-                                    films: [],
+                                  FilmsCategory(
+                                    title: 'Популярные',
+                                    films: popular,
                                   ),
-                                  const FilmsCategory(
-                                    title: 'Popular',
-                                    films: [],
+                                  const SizedBox(height: 12),
+                                  FilmsCategory(
+                                    title: 'Лучшие оценки',
+                                    films: topRated,
                                   ),
-                                  const FilmsCategory(
-                                    title: 'Upcoming',
-                                    films: [],
+                                  FilmsCategory(
+                                    title: 'Выходящие',
+                                    films: upcoming,
                                   ),
                                 ],
                               ),
-                            );
-                          },
-                          orElse: () => const ShimmerWidget(),
-                        );
-                      },
-                    ),
+                            ),
+                          );
+                        },
+                        orElse: () => const ShimmerWidget(),
+                      );
+                    },
                   ),
                 ],
               ),

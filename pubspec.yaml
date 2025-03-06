@@ -38,7 +38,6 @@ dev_dependencies:
 flutter:
   generate: true
   assets:
-    - assets/aboba.html
     - shorebird.yaml
   uses-material-design: true
   fonts:

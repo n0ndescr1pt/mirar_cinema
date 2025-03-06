@@ -27,7 +27,6 @@ class ApiProvider {
     //  ),
     //);
 
-
     _dio.interceptors.add(InterceptorsWrapper(
       onError: (DioException e, handler) {
         _handleError(e);
@@ -84,7 +83,7 @@ class ApiProvider {
   void _handleRequest(RequestOptions options) {
     options.headers.addAll({
       'accept': 'application/json',
-      'X-API-KEY': tmdbApiKey,
+      'X-API-KEY': kinopoiskApiKey,
     });
   }
 

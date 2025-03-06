@@ -11,19 +11,19 @@ class FilmsCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 350,
+      height: 300,
       child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              title.toUpperCase(),
+              title,
               style: Theme.of(context)
                   .textTheme
                   .displaySmall
                   ?.copyWith(color: AppColors.text),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 12),
             Expanded(
               child: ListView.separated(
                 separatorBuilder: (context, index) => const SizedBox(width: 8),
@@ -36,6 +36,7 @@ class FilmsCategory extends StatelessWidget {
                 },
               ),
             ),
+            const SizedBox(height: 12),
           ],
         ),
       ),

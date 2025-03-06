@@ -15,7 +15,7 @@ class SearchItemWidget extends StatelessWidget {
         behavior: HitTestBehavior.opaque,
         onTap: () {
           context.goNamed(AppRoute.film.name,
-              pathParameters: {'kinoposikId': film.filmId.toString()});
+              pathParameters: {'kinoposikId': film.kinopoiskId.toString()});
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
@@ -31,7 +31,8 @@ class SearchItemWidget extends StatelessWidget {
                 ),
                 width: 60,
                 height: 88,
-                imageUrl: film.posterUrlPreview,
+                imageUrl: film.posterUrlPreview ??
+                    "https://avatars.mds.yandex.net/i?id=0aee8c6e0ef9c5161691cc3c1c3b5361_l-5313598-images-thumbs&n=13",
               ),
               const SizedBox(width: 12),
               SizedBox(
@@ -40,7 +41,7 @@ class SearchItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      film.nameRu,
+                      film.nameRu ?? '',
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
@@ -55,7 +56,7 @@ class SearchItemWidget extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              Text(film.rating),
+              Text(film.ratingKinopoisk.toString()),
               const SizedBox(width: 12),
             ],
           ),

@@ -1,29 +1,21 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mirar/src/features/films/model/preview_model.dart';
 
 part 'preview_dto.g.dart';
 
 @JsonSerializable()
 class PreviewDTO {
-  @JsonKey(name: 'filmId')
-  final int filmId;
+  @JsonKey(name: 'kinopoiskId')
+  final int kinopoiskId;
 
   @JsonKey(name: 'nameRu')
-  final String nameRu;
+  final String? nameRu;
 
   @JsonKey(name: 'nameEn')
   final String? nameEn;
 
-  @JsonKey(name: 'type')
-  final String type;
-
-  @JsonKey(name: 'year')
-  final String year;
-
-  @JsonKey(name: 'description')
-  final String? description;
-
-  @JsonKey(name: 'filmLength')
-  final String? filmLength;
+  @JsonKey(name: 'nameOriginal')
+  final String? nameOriginal;
 
   @JsonKey(name: 'countries', fromJson: _countriesFromJson)
   final List<String> countries;
@@ -31,43 +23,71 @@ class PreviewDTO {
   @JsonKey(name: 'genres', fromJson: _genresFromJson)
   final List<String> genres;
 
-  @JsonKey(name: 'rating')
-  final String rating;
+  @JsonKey(name: 'ratingKinopoisk')
+  final double? ratingKinopoisk;
 
-  @JsonKey(name: 'ratingVoteCount')
-  final int ratingVoteCount;
+  @JsonKey(name: 'ratingImdb')
+  final double? ratingImdb;
+
+  @JsonKey(name: 'year')
+  final int? year;
+
+  @JsonKey(name: 'type')
+  final String? type;
 
   @JsonKey(name: 'posterUrl')
-  final String posterUrl;
+  final String? posterUrl;
 
   @JsonKey(name: 'posterUrlPreview')
-  final String posterUrlPreview;
+  final String? posterUrlPreview;
+
+  @JsonKey(name: 'premiereRu')
+  final String? premiereRu;
 
   PreviewDTO({
-    required this.filmId,
+    required this.kinopoiskId,
+    required this.premiereRu,
     required this.nameRu,
     this.nameEn,
-    required this.type,
-    required this.year,
-    this.description,
-    this.filmLength,
+    this.nameOriginal,
     required this.countries,
     required this.genres,
-    required this.rating,
-    required this.ratingVoteCount,
+    required this.ratingKinopoisk,
+    required this.ratingImdb,
+    required this.year,
+    required this.type,
     required this.posterUrl,
     required this.posterUrlPreview,
   });
 
-  static List<String> _genresFromJson(List<dynamic> json) {
-    return json.map((e) => e['genre'] as String).toList();
-  }
+  static List<String> _countriesFromJson(List<dynamic> json) =>
+      json.map((e) => e['country'] as String).toList();
 
-  static List<String> _countriesFromJson(List<dynamic> json) {
-    return json.map((e) => e['country'] as String).toList();
-  }
+  static List<String> _genresFromJson(List<dynamic> json) =>
+      json.map((e) => e['genre'] as String).toList();
 
   factory PreviewDTO.fromJson(Map<String, dynamic> json) =>
       _$PreviewDTOFromJson(json);
+
   Map<String, dynamic> toJson() => _$PreviewDTOToJson(this);
+}
+
+extension PreviewDTOMapper on PreviewDTO {
+  PreviewModel toModel() {
+    return PreviewModel(
+      kinopoiskId: kinopoiskId,
+      nameRu: nameRu,
+      nameEn: nameEn,
+      nameOriginal: nameOriginal,
+      countries: countries,
+      genres: genres,
+      ratingKinopoisk: ratingKinopoisk,
+      ratingImdb: ratingImdb,
+      year: year,
+      type: type,
+      posterUrl: posterUrl,
+      posterUrlPreview: posterUrlPreview,
+      premiereRu: premiereRu,
+    );
+  }
 }
