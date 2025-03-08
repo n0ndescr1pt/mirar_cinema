@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mirar/src/features/films/data/film_repository.dart';
-import 'package:mirar/src/features/films/model/preview_model.dart';
+import 'package:mirar/src/features/films/model/search_model.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 part 'search_event.dart';

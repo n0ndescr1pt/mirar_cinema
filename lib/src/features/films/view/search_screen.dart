@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mirar/src/features/films/bloc/films/films_bloc.dart';
 import 'package:mirar/src/features/films/bloc/search/search_bloc.dart';
-import 'package:mirar/src/features/films/model/preview_model.dart';
+import 'package:mirar/src/features/films/model/search_model.dart';
 import 'package:mirar/src/features/films/view/widgets/films_category.dart';
 import 'package:mirar/src/features/films/view/widgets/search_bar.dart';
 import 'package:mirar/src/features/films/view/widgets/search_item.dart';
@@ -21,7 +21,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   Timer? _debounce;
   bool _showResults = false;
-  List<PreviewModel> _searchResults = [];
+  List<SearchModel> _searchResults = [];
   final TextEditingController _searchController = TextEditingController();
 
   @override

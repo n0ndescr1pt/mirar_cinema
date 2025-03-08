@@ -5,5 +5,5 @@ class SearchState with _$SearchState {
   const factory SearchState.initial() = _InitialState;
   const factory SearchState.error({required String error}) = _ErrorState;
   const factory SearchState.loading() = _LoadingState;
-  const factory SearchState.loaded({required List<PreviewModel> films}) = _LoadedState;
+  const factory SearchState.loaded({required List<SearchModel> films}) = _LoadedState;
 }

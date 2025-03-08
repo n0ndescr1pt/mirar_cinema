@@ -101,7 +101,9 @@ class _FilmScreenState extends State<FilmScreen>
                     setState(() {
                       showPlayer = false;
                     });
-                    context.read<FilmBloc>().add(FilmEvent.started());
+                    context
+                        .read<FilmBloc>()
+                        .add(const FilmEvent.clearDetails());
                     Navigator.of(context).pop();
                   },
                 ),
@@ -157,37 +159,41 @@ class _FilmScreenState extends State<FilmScreen>
                           },
                         ),
                         if (showPlayer && _fileCreated)
-                          SizedBox(
-                            width: 600,
-                            height: 240,
-                            child: InAppWebView(
-                              initialUrlRequest: URLRequest(
-                                url: WebUri('http://127.0.0.1:8080/aboba.html'),
+                          RepaintBoundary(
+                            child: SizedBox(
+                              width: 600,
+                              height: 240,
+                              child: InAppWebView(
+                                initialUrlRequest: URLRequest(
+                                  url: WebUri(
+                                      'http://127.0.0.1:8080/aboba.html'),
+                                ),
+                                shouldInterceptRequest:
+                                    (controller, request) async {
+                                  String url = request.url.toString();
+                                  print("aaaaaa             $url");
+                                  for (String domain in blockedDomains) {
+                                    if (url.contains(domain)) {
+                                      print("Blocked request to $url");
+
+                                      return WebResourceResponse(
+                                        contentType: "text/plain",
+                                        contentEncoding: "utf-8",
+                                      );
+                                    }
+                                  }
+                                  return null;
+                                },
+                                initialSettings: InAppWebViewSettings(
+                                    useHybridComposition: false,
+                                    transparentBackground: true,
+                                    supportZoom: false,
+                                    cacheEnabled: true),
+                                onWebViewCreated:
+                                    (InAppWebViewController controller) {
+                                  webView = controller;
+                                },
                               ),
-                              shouldInterceptRequest:
-                                  (controller, request) async {
-                                String url = request.url.toString();
-                                print("aaaaaa             $url");
-                                //for (String domain in blockedDomains) {
-                                //  if (url.contains(domain)) {
-                                //    print("Blocked request to $url");
-//
-                                //    return WebResourceResponse(
-                                //      contentType: "text/plain",
-                                //      contentEncoding: "utf-8",
-                                //    );
-                                //  }
-                                //}
-                                return null;
-                              },
-                              initialSettings: InAppWebViewSettings(
-                                  transparentBackground: true,
-                                  supportZoom: false,
-                                  cacheEnabled: false),
-                              onWebViewCreated:
-                                  (InAppWebViewController controller) {
-                                // webView = controller;
-                              },
                             ),
                           ),
                       ],

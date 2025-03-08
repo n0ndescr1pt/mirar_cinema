@@ -2,10 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mirar/src/app_routes.dart';
-import 'package:mirar/src/features/films/model/preview_model.dart';
+import 'package:mirar/src/features/films/model/search_model.dart';
 
 class SearchItemWidget extends StatelessWidget {
-  final PreviewModel film;
+  final SearchModel film;
   const SearchItemWidget({super.key, required this.film});
 
   @override
@@ -56,7 +56,7 @@ class SearchItemWidget extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              Text(film.ratingKinopoisk.toString()),
+              Text(film.rating.toString()),
               const SizedBox(width: 12),
             ],
           ),

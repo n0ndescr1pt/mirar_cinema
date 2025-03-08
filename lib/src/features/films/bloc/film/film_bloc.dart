@@ -17,12 +17,21 @@ class FilmBloc extends Bloc<FilmEvent, FilmState> {
         _talker = talker,
         super(const FilmState.initial()) {
     on<_LoadDetailsEvent>(_loadDetails);
+    on<_ClearDetailsEvent>(_clearDetails);
   }
 
   _loadDetails(_LoadDetailsEvent event, Emitter<FilmState> emit) async {
     try {
       final filmDetails = await _filmRepository.fetchDetailFilm(event.filmId);
       emit(FilmState.loaded(film: filmDetails));
+    } catch (e, st) {
+      _talker.error(e, st);
+    }
+  }
+
+  _clearDetails(_ClearDetailsEvent event, Emitter<FilmState> emit) async {
+    try {
+      emit(const FilmState.initial());
     } catch (e, st) {
       _talker.error(e, st);
     }

@@ -1,6 +1,7 @@
 import 'package:mirar/src/common/dio/dio_api.dart';
 import 'package:mirar/src/features/films/model/dto/detail_dto.dart';
 import 'package:mirar/src/features/films/model/dto/preview_dto.dart';
+import 'package:mirar/src/features/films/model/dto/search_dto.dart';
 import 'package:mirar/src/features/films/utils/month_converter.dart';
 
 abstract interface class IKinopoiskDataSource {
@@ -8,7 +9,7 @@ abstract interface class IKinopoiskDataSource {
   Future<List<PreviewDTO>> fetchTopRated();
   Future<List<PreviewDTO>> fetchUpcoming();
   Future<DetailDTO> fetchDetailFilm(String id);
-  Future<List<PreviewDTO>> searchFilms(String title);
+  Future<List<SearchDTO>> searchFilms(String title);
 }
 
 class KinopoiskDataSource implements IKinopoiskDataSource {
@@ -73,7 +74,7 @@ class KinopoiskDataSource implements IKinopoiskDataSource {
         queryParameters: {
           "api_key": "0a913bff75919031103208bb1b2963ef",
           "year": DateTime.now().year,
-          "month": monthConverter(DateTime.now().month+2).toUpperCase(),
+          "month": monthConverter(DateTime.now().month + 2).toUpperCase(),
         },
       );
       if (response.data == null) {
@@ -104,7 +105,7 @@ class KinopoiskDataSource implements IKinopoiskDataSource {
   }
 
   @override
-  Future<List<PreviewDTO>> searchFilms(String title) async {
+  Future<List<SearchDTO>> searchFilms(String title) async {
     try {
       final response = await _apiProvider.apiCall(
         "/api/v2.1/films/search-by-keyword",
@@ -114,8 +115,9 @@ class KinopoiskDataSource implements IKinopoiskDataSource {
       if (response.data == null) {
         return [];
       }
+      print(response.data['films']);
       final result = response.data['films'] as List<dynamic>;
-      final list = result.map((e) => PreviewDTO.fromJson(e)).toList();
+      final list = result.map((e) => SearchDTO.fromJson(e)).toList();
       return list;
     } catch (e) {
       rethrow;

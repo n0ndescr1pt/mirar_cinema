@@ -13,8 +13,11 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
   final IFilmRepository _filmRepository;
 
   List<PreviewModel> topRated = [];
+  int topRatedPage = 1;
   List<PreviewModel> upcoming = [];
+  int upcomingPage = 1;
   List<PreviewModel> popular = [];
+  int popularPage = 1;
   FilmsBloc({required Talker talker, required IFilmRepository filmRepository})
       : _talker = talker,
         _filmRepository = filmRepository,
@@ -28,7 +31,8 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
     emit(const FilmsState.loading());
     try {
       final newTopRated = await _filmRepository.fetchTopRated();
-      topRated = newTopRated;
+      topRatedPage++;
+      topRated = [...topRated, ...newTopRated];
       emit(FilmsState.loaded(
           topRated: topRated, upcoming: upcoming, popular: popular));
     } catch (e) {
@@ -42,7 +46,7 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
     try {
       print(1);
       final newPopular = await _filmRepository.fetchPopular();
-      popular = newPopular;
+      popular = [...popular, ...newPopular];
       emit(FilmsState.loaded(
           topRated: topRated, upcoming: upcoming, popular: popular));
     } catch (e) {
@@ -55,7 +59,7 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
     emit(const FilmsState.loading());
     try {
       final newUpcoming = await _filmRepository.fetchUpcoming();
-      upcoming = newUpcoming;
+      upcoming = [...upcoming, ...newUpcoming];
       emit(FilmsState.loaded(
           topRated: topRated, upcoming: upcoming, popular: popular));
     } catch (e, st) {
