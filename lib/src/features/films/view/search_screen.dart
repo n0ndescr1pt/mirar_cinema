@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mirar/src/features/films/bloc/films/films_bloc.dart';
 import 'package:mirar/src/features/films/bloc/search/search_bloc.dart';
 import 'package:mirar/src/features/films/model/search_model.dart';
+import 'package:mirar/src/features/films/utils/scroll_manager.dart';
 import 'package:mirar/src/features/films/view/widgets/films_category.dart';
 import 'package:mirar/src/features/films/view/widgets/search_bar.dart';
 import 'package:mirar/src/features/films/view/widgets/search_item.dart';
@@ -24,13 +25,31 @@ class _SearchScreenState extends State<SearchScreen> {
   List<SearchModel> _searchResults = [];
   final TextEditingController _searchController = TextEditingController();
 
+  late ScrollManager scrollControllerPopular;
+  late ScrollManager scrollControllerTopRated;
   @override
   void initState() {
-    loadFeed();
+    _loadFeed();
+    _loadScrollController();
     super.initState();
   }
 
-  void loadFeed() {
+  void _loadScrollController() {
+    scrollControllerPopular = ScrollManager(
+        context: context,
+        scrollController: ScrollController(),
+        onLoadMore: () {
+          context.read<FilmsBloc>().add(const FilmsEvent.loadPopular());
+        });
+    scrollControllerTopRated = ScrollManager(
+        context: context,
+        scrollController: ScrollController(),
+        onLoadMore: () {
+          context.read<FilmsBloc>().add(const FilmsEvent.loadTopRated());
+        });
+  }
+
+  void _loadFeed() {
     context.read<FilmsBloc>().add(const FilmsEvent.loadPopular());
     context.read<FilmsBloc>().add(const FilmsEvent.loadTopRated());
     context.read<FilmsBloc>().add(const FilmsEvent.loadUpcoming());
@@ -39,6 +58,8 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void dispose() {
     _debounce?.cancel();
+    scrollControllerPopular.dispose();
+    scrollControllerTopRated.dispose();
     super.dispose();
   }
 
@@ -100,15 +121,20 @@ class _SearchScreenState extends State<SearchScreen> {
                               delegate: SliverChildListDelegate(
                                 [
                                   FilmsCategory(
+                                    scrollController: scrollControllerPopular
+                                        .scrollController,
                                     title: 'Популярные',
                                     films: popular,
                                   ),
                                   const SizedBox(height: 12),
                                   FilmsCategory(
+                                    scrollController: scrollControllerTopRated
+                                        .scrollController,
                                     title: 'Лучшие оценки',
                                     films: topRated,
                                   ),
                                   FilmsCategory(
+                                    scrollController: ScrollController(),
                                     title: 'Выходящие',
                                     films: upcoming,
                                   ),
@@ -120,6 +146,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         orElse: () => const ShimmerWidget(),
                       );
                     },
+                   
                   ),
                 ],
               ),

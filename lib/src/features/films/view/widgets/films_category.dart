@@ -6,7 +6,13 @@ import 'package:mirar/src/theme/app_colors.dart';
 class FilmsCategory extends StatelessWidget {
   final String title;
   final List<PreviewModel> films;
-  const FilmsCategory({super.key, required this.title, required this.films});
+  final ScrollController scrollController;
+
+  const FilmsCategory(
+      {super.key,
+      required this.title,
+      required this.films,
+      required this.scrollController});
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +32,7 @@ class FilmsCategory extends StatelessWidget {
             const SizedBox(height: 12),
             Expanded(
               child: ListView.separated(
+                controller: scrollController,
                 separatorBuilder: (context, index) => const SizedBox(width: 8),
                 scrollDirection: Axis.horizontal,
                 itemCount: films.length,

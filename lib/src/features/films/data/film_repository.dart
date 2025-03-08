@@ -6,8 +6,8 @@ import 'package:mirar/src/features/films/model/preview_model.dart';
 import 'package:mirar/src/features/films/model/search_model.dart';
 
 abstract interface class IFilmRepository {
-  Future<List<PreviewModel>> fetchPopular();
-  Future<List<PreviewModel>> fetchTopRated();
+  Future<List<PreviewModel>> fetchPopular(int page);
+  Future<List<PreviewModel>> fetchTopRated(int page);
   Future<List<PreviewModel>> fetchUpcoming();
   Future<DetailModel> fetchDetailFilm(String id);
   Future<List<SearchModel>> searchFilms(String title);
@@ -29,9 +29,9 @@ class FilmRepository implements IFilmRepository {
   }
 
   @override
-  Future<List<PreviewModel>> fetchPopular() async {
+  Future<List<PreviewModel>> fetchPopular(int page) async {
     try {
-      final dto = await _tmdbDataSource.fetchPopular();
+      final dto = await _tmdbDataSource.fetchPopular(page);
       return dto.map((e) => e.toModel()).toList();
     } catch (e) {
       rethrow;
@@ -39,9 +39,9 @@ class FilmRepository implements IFilmRepository {
   }
 
   @override
-  Future<List<PreviewModel>> fetchTopRated() async {
+  Future<List<PreviewModel>> fetchTopRated(int page) async {
     try {
-      final dto = await _tmdbDataSource.fetchTopRated();
+      final dto = await _tmdbDataSource.fetchTopRated(page);
       return dto.map((e) => e.toModel()).toList();
     } catch (e) {
       rethrow;

@@ -5,8 +5,8 @@ import 'package:mirar/src/features/films/model/dto/search_dto.dart';
 import 'package:mirar/src/features/films/utils/month_converter.dart';
 
 abstract interface class IKinopoiskDataSource {
-  Future<List<PreviewDTO>> fetchPopular();
-  Future<List<PreviewDTO>> fetchTopRated();
+  Future<List<PreviewDTO>> fetchPopular(int page);
+  Future<List<PreviewDTO>> fetchTopRated(int page);
   Future<List<PreviewDTO>> fetchUpcoming();
   Future<DetailDTO> fetchDetailFilm(String id);
   Future<List<SearchDTO>> searchFilms(String title);
@@ -19,17 +19,18 @@ class KinopoiskDataSource implements IKinopoiskDataSource {
   }) : _apiProvider = apiProvider;
 
   @override
-  Future<List<PreviewDTO>> fetchPopular() async {
+  Future<List<PreviewDTO>> fetchPopular(int page) async {
     try {
       final response = await _apiProvider.apiCall(
         "/api/v2.2/films/collections",
         requestType: RequestType.get,
         queryParameters: {
           "type": "TOP_250_MOVIES",
-          "api_key": "0a913bff75919031103208bb1b2963ef"
+          "api_key": "0a913bff75919031103208bb1b2963ef",
+          "page": page,
         },
       );
-
+      print(response.data['totalPages']);
       if (response.data['items'] == null) {
         return [];
       }
@@ -44,7 +45,7 @@ class KinopoiskDataSource implements IKinopoiskDataSource {
   }
 
   @override
-  Future<List<PreviewDTO>> fetchTopRated() async {
+  Future<List<PreviewDTO>> fetchTopRated(int page) async {
     try {
       final response = await _apiProvider.apiCall("/api/v2.2/films",
           requestType: RequestType.get,
@@ -52,7 +53,8 @@ class KinopoiskDataSource implements IKinopoiskDataSource {
             "api_key": "0a913bff75919031103208bb1b2963ef",
             "order": "RATING",
             "ratingFrom": 9.0,
-            "type": "FILM"
+            "type": "FILM",
+            "page": page,
           });
       if (response.data == null) {
         return [];
