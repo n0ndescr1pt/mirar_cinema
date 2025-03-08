@@ -1,3 +1,4 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -52,7 +53,7 @@ class _FilmScreenState extends State<FilmScreen>
       backgroundColor: Colors.black,
       body: Stack(
         children: [
-          BlocBuilder<FilmBloc, FilmState>(
+          BlocConsumer<FilmBloc, FilmState>(
             builder: (context, state) {
               return state.maybeWhen(
                 orElse: () {
@@ -76,6 +77,16 @@ class _FilmScreenState extends State<FilmScreen>
                 },
               );
             },
+            listener: (BuildContext context, FilmState state) {
+              state.whenOrNull(
+                loaded: (film) {
+                  AppMetrica.reportEventWithMap('OpenFilm', {
+                    "filmName": film.nameRu ?? "",
+                    "filmId": film.kinopoiskId
+                  });
+                },
+              );
+            },
           ),
           CustomScrollView(
             slivers: [
@@ -90,7 +101,7 @@ class _FilmScreenState extends State<FilmScreen>
                     setState(() {
                       showPlayer = false;
                     });
-
+                    context.read<FilmBloc>().add(FilmEvent.started());
                     Navigator.of(context).pop();
                   },
                 ),

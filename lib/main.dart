@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mirar/src/app.dart';
@@ -16,6 +17,9 @@ import 'package:talker_flutter/talker_flutter.dart';
 void main() {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
+    await AppMetrica.activate(
+        AppMetricaConfig("01383fd2-f522-49bf-8e3f-2262d64b5b59", logs: true));
+    await AppMetrica.reportEvent('AppOpen');
     final prefs = await SharedPreferences.getInstance();
 
     runApp(
