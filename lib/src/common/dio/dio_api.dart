@@ -2,13 +2,18 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:mirar/src/common/dio/dio_exceptions.dart';
 import 'package:mirar/src/resources/constants.dart';
+import 'package:mirar/src/resources/key.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 class ApiProvider {
   //final Talker _talker;
   final Dio _dio;
+  final String baseUrl;
+  final SharedPreferences prefs;
 
-  ApiProvider({required Talker talker})
+  ApiProvider(
+      {required this.prefs, required this.baseUrl, required Talker talker})
       : // _talker = talker,
         _dio = Dio(BaseOptions(
           baseUrl: baseUrl,
@@ -16,24 +21,14 @@ class ApiProvider {
           connectTimeout: const Duration(seconds: 20),
           sendTimeout: const Duration(seconds: 20),
         )) {
-    //_dio.interceptors.add(
-    //  TalkerDioLogger(
-    //    talker: _talker,
-    //    settings: const TalkerDioLoggerSettings(
-    //      printRequestHeaders: false,
-    //      printResponseHeaders: false,
-    //      printResponseMessage: false,
-    //    ),
-    //  ),
-    //);
-
     _dio.interceptors.add(InterceptorsWrapper(
       onError: (DioException e, handler) {
         _handleError(e);
         return handler.next(e);
       },
       onRequest: (options, handler) {
-        _handleRequest(options);
+        _handleRequest(options, _checkIsUserSignIn(options));
+
         return handler.next(options);
       },
     ));
@@ -80,11 +75,35 @@ class ApiProvider {
     }
   }
 
-  void _handleRequest(RequestOptions options) {
+  void _handleRequest(RequestOptions options, bool isUserSignIn) {
+    final currentSession = {};
+    if (isUserSignIn) {
+      final sessionToken = prefs.getString(sessionTokenPrefsKey);
+      currentSession.addAll({'X-Parse-Session-Token': sessionToken});
+    }
+
     options.headers.addAll({
       'accept': 'application/json',
+      'X-Parse-Application-Id': applicationIdKey,
+      'X-Parse-REST-API-Key': restApiKey,
+      'X-Parse-Revocable-Session': "1",
       'X-API-KEY': kinopoiskApiKey,
+      ...currentSession
     });
+  }
+
+  bool _checkIsUserSignIn(RequestOptions options) {
+    const excludeUrls = [
+      '/login',
+      '/users',
+    ];
+    const excludeMethods = [];
+
+    if (excludeUrls.contains(options.path) ||
+        excludeMethods.contains(options.method)) {
+      return false;
+    }
+    return true;
   }
 
   static void _handleError(DioException e) {
