@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mirar/src/app_routes.dart';
 import 'package:mirar/src/features/films/model/preview_model.dart';
+import 'package:mirar/src/features/profile/bloc/auth_bloc.dart';
 import 'package:mirar/src/theme/app_colors.dart';
 
 class PreviewCard extends StatelessWidget {
@@ -14,6 +16,7 @@ class PreviewCard extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
+        print(context.read<AuthBloc>().loginModel);
         context.goNamed(AppRoute.film.name,
             pathParameters: {'kinoposikId': poster.kinopoiskId.toString()});
       },

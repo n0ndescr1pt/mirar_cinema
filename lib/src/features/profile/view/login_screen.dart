@@ -26,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       child: Scaffold(
+        appBar: AppBar(),
         body: Center(
           child: SafeArea(
             child: SingleChildScrollView(
@@ -171,12 +172,9 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
       listener: (context, state) {
-        state.when(
-          login: (LoginModel login) async {
-            context.goNamed(AppRoute.search.name);
-          },
-          loggedOut: () {
-            context.goNamed(AppRoute.login.name);
+        state.maybeWhen(
+          login: (loginModel) {
+            context.pop();
           },
           error: () {
             setState(() {
@@ -185,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                 " localization.loginErrorText",
+                  "localization.loginErrorText",
                   style: const TextStyle(color: Colors.white),
                 ),
                 backgroundColor: Colors.red,
@@ -203,7 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
               isLoading = true;
             });
           },
-          initial: () {},
+          orElse: () {},
         );
       },
     );

@@ -52,7 +52,7 @@ class SignInServices implements ISignInServices {
             sessionToken: user.sessionToken!);
       } else {
         await GoogleSignIn().signOut();
-        throw Exception();
+        throw Exception("Something went wrong, try again");
       }
     } catch (e) {
       rethrow;

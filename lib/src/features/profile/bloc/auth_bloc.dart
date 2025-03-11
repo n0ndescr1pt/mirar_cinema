@@ -10,6 +10,7 @@ part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  LoginModel? loginModel;
   final IAuthRepository _authRepository;
   final Talker _talker;
   AuthBloc({
@@ -29,9 +30,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   _onLogin(_LoginEvent event, Emitter<AuthState> emit) async {
     emit(const AuthState.loading());
     try {
-      final loginModel = await _authRepository.login(
+      final resultLoginModel = await _authRepository.login(
           username: event.username, password: event.password);
-      emit(AuthState.login(loginModel: loginModel));
+      loginModel = resultLoginModel;
+      emit(AuthState.login(loginModel: resultLoginModel));
     } catch (e) {
       _talker.error("AuthBloc _onLogin", e);
       emit(const AuthState.error());
@@ -41,8 +43,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   _onLoginWithApple(_LoginWithAppleEvent event, Emitter<AuthState> emit) async {
     emit(const AuthState.loading());
     try {
-      final loginModel = await _authRepository.loginWithApple();
-      emit(AuthState.login(loginModel: loginModel));
+      final resultLoginModel = await _authRepository.loginWithApple();
+      loginModel = resultLoginModel;
+      emit(AuthState.login(loginModel: resultLoginModel));
     } catch (e) {
       _talker.error("AuthBloc  _LoginWithAppleEvent", e);
       emit(const AuthState.error());
@@ -53,8 +56,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       _LoginWithGoogleEvent event, Emitter<AuthState> emit) async {
     emit(const AuthState.loading());
     try {
-      final loginModel = await _authRepository.loginWithGoogle();
-      emit(AuthState.login(loginModel: loginModel));
+      final resultLoginModel = await _authRepository.loginWithGoogle();
+      loginModel = resultLoginModel;
+      emit(AuthState.login(loginModel: resultLoginModel));
     } catch (e) {
       _talker.error("AuthBloc_LoginWithGoogleEvent", e);
       emit(const AuthState.error());
@@ -64,11 +68,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   _onRegister(_RegisterEvent event, Emitter<AuthState> emit) async {
     emit(const AuthState.loading());
     try {
-      final loginModel = await _authRepository.register(
+      final resultLoginModel = await _authRepository.register(
           username: event.username,
           password: event.password,
           email: event.email);
-      emit(AuthState.login(loginModel: loginModel));
+      loginModel = resultLoginModel;
+      emit(AuthState.login(loginModel: resultLoginModel));
     } on BadRequestException catch (e) {
       emit(AuthState.registrationError(code: e.code));
     } catch (e) {
@@ -79,6 +84,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   _onLogout(_LogoutEvent event, Emitter<AuthState> emit) async {
     try {
+      loginModel = null;
       await _authRepository.logout();
       emit(const AuthState.loggedOut());
     } catch (e) {
@@ -90,10 +96,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   _onCheckSession(_CheckSessionEvent event, Emitter<AuthState> emit) async {
     emit(const AuthState.loading());
     try {
+      final resultLoginModel = await _authRepository.isActiveSession();
 
-      final loginModel = await _authRepository.isActiveSession();
-      if (loginModel != null) {
-        emit(AuthState.login(loginModel: loginModel));
+      if (resultLoginModel != null) {
+        loginModel = resultLoginModel;
+        emit(AuthState.login(loginModel: resultLoginModel));
       } else {
         emit(const AuthState.loggedOut());
       }

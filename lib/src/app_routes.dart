@@ -1,29 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mirar/src/features/films/view/film_screen.dart';
 import 'package:mirar/src/features/films/view/search_screen.dart';
 import 'package:mirar/src/features/home/view/home_screen.dart';
 import 'package:mirar/src/features/profile/view/login_screen.dart';
+import 'package:mirar/src/features/profile/view/profile_screen.dart';
 import 'package:mirar/src/features/profile/view/register_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mirar/src/features/review/view/review_screen.dart';
 
 enum AppRoute { search, profile, review, film, login, register }
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 final GoRouter router = GoRouter(
   navigatorKey: rootNavigatorKey,
-  redirect: (context, state) async {
-    final sessionToken =
-        context.read<SharedPreferences>().getString("sessionToken");
-    if (sessionToken == "" || sessionToken == null) {
-      if (state.matchedLocation.startsWith('/login')) {
-        return null;
-      }
-      return "/login";
-    }
-    return null;
-  },
   initialLocation: '/search',
   routes: [
     GoRoute(
@@ -68,7 +57,7 @@ final GoRouter router = GoRouter(
             GoRoute(
               name: AppRoute.review.name,
               path: '/review',
-              builder: (context, state) => const Scaffold(),
+              builder: (context, state) => const ReviewScreen(),
             )
           ],
         ),
@@ -77,7 +66,7 @@ final GoRouter router = GoRouter(
             GoRoute(
               name: AppRoute.profile.name,
               path: '/profile',
-              builder: (context, state) => const Scaffold(),
+              builder: (context, state) => const ProfileScreen(),
             )
           ],
         ),
