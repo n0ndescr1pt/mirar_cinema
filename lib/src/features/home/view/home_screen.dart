@@ -1,40 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:mirar/src/features/films/view/search_screen.dart';
+import 'package:mirar/src/features/profile/bloc/auth_bloc.dart';
 import 'package:mirar/src/theme/app_colors.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final StatefulNavigationShell navigationShell;
+
+  const HomeScreen({super.key, required this.navigationShell});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late int _selectedIndex;
-
   @override
   void initState() {
+    context.read<AuthBloc>().add(const AuthEvent.checkSession());
     super.initState();
-    _selectedIndex = 2;
   }
-
-  final List<Widget> _screens = [
-    const Text(
-      'Лента',
-      style: TextStyle(color: AppColors.text),
-    ),
-    const SearchScreen(),
-    const Text(
-      'Профиль',
-      style: TextStyle(color: AppColors.text),
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: widget.navigationShell,
       backgroundColor: AppColors.background,
       bottomNavigationBar: SizedBox(
         height: 60,
@@ -43,7 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: AppColors.background,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           tabBackgroundColor: AppColors.activeIconBackground,
-          selectedIndex: _selectedIndex,
           color: AppColors.inactiveIcon,
           activeColor: AppColors.activeIcon,
           textSize: 10,
@@ -62,16 +52,16 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: LineIcons.user,
             ),
           ],
-          onTabChange: (value) {
-            setState(() {
-              _selectedIndex = value;
-            });
-          },
+          onTabChange: _onTap,
         ),
       ),
-      body: SafeArea(
-        child: _screens.elementAt(_selectedIndex),
-      ),
+    );
+  }
+
+  void _onTap(index) {
+    widget.navigationShell.goBranch(
+      index,
+      initialLocation: index == widget.navigationShell.currentIndex,
     );
   }
 }
