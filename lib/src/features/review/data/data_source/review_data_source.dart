@@ -22,7 +22,7 @@ class ReviewDataSource implements IReviewDataSource {
     try {
       await _apiProvider.apiCall("/functions/addMovieReview",
           requestType: RequestType.post,
-          body: film.toReviewEntry(userId, review));
+          body: film.toReviewHistoryMap(userId, review));
     } catch (e) {
       rethrow;
     }
