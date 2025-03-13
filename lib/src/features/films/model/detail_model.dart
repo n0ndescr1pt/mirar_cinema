@@ -105,3 +105,47 @@ extension DetailDTOMapper on DetailDTO {
     );
   }
 }
+
+extension DetailModelMapper on DetailModel {
+  Map<String, dynamic> toWatchHistory(String userId) {
+    return {
+      "kinopoiskId": kinopoiskId,
+      "nameRu": nameRu ?? "",
+      "nameEn": nameEn ?? "",
+      "posterUrl": posterUrl ?? "",
+      "posterUrlPreview": posterUrlPreview ?? "",
+      "ratingImdbVoteCount": ratingImdbVoteCount ?? 0,
+      "genre": genres.isNotEmpty ? genres : [],
+      "ratingKinopoisk": ratingKinopoisk ?? 0,
+      "countries": countries.isNotEmpty ? countries : [],
+      "review": reviewsCount ?? 0,
+      "userId": {
+        "__type": "Pointer",
+        "className": "_User",
+        "objectId": userId,
+      }
+    };
+  }
+}
+
+extension DetailModelReviewMapper on DetailModel {
+  Map<String, dynamic> toReviewEntry(String userId, double review) {
+    return {
+      "kinopoiskId": kinopoiskId,
+      "nameRu": nameRu ?? "",
+      "nameEn": nameEn ?? "",
+      "review": review,
+      "posterUrl": posterUrl ?? "",
+      "posterUrlPreview": posterUrlPreview ?? "",
+      "ratingImdbVoteCount": ratingImdbVoteCount ?? 0,
+      "genre": genres.isNotEmpty ? genres : [],
+      "ratingKinopoisk": ratingKinopoisk ?? 0,
+      "countries": countries.isNotEmpty ? countries : [],
+      "userId": {
+        "__type": "Pointer",
+        "className": "_User",
+        "objectId": userId,
+      }
+    };
+  }
+}
