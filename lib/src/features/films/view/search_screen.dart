@@ -97,19 +97,22 @@ class _SearchScreenState extends State<SearchScreen> {
             children: [
               CustomScrollView(
                 slivers: [
-                  SliverAppBar(
-                    toolbarHeight: 55,
-                    backgroundColor: Colors.grey[900],
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
+                  SliverPadding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    sliver: SliverAppBar(
+                      toolbarHeight: 55,
+                      backgroundColor: Colors.grey[900],
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20),
+                        ),
                       ),
+                      floating: true,
+                      pinned: true,
+                      flexibleSpace: SearchBarWidget(
+                          onSearchChanged: _updateSearchResults,
+                          controller: _searchController),
                     ),
-                    floating: true,
-                    pinned: true,
-                    flexibleSpace: SearchBarWidget(
-                        onSearchChanged: _updateSearchResults,
-                        controller: _searchController),
                   ),
                   BlocBuilder<FilmsBloc, FilmsState>(
                     builder: (context, state) {
@@ -126,7 +129,6 @@ class _SearchScreenState extends State<SearchScreen> {
                                     title: 'Популярные',
                                     films: popular,
                                   ),
-                                  const SizedBox(height: 12),
                                   FilmsCategory(
                                     scrollController: scrollControllerTopRated
                                         .scrollController,
@@ -146,7 +148,6 @@ class _SearchScreenState extends State<SearchScreen> {
                         orElse: () => const ShimmerWidget(),
                       );
                     },
-                   
                   ),
                 ],
               ),

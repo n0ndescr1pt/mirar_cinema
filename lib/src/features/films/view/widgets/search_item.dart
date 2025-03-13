@@ -45,7 +45,7 @@ class SearchItemWidget extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
-                      film.nameEn ?? "",
+                      film.nameOriginal ?? "",
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context)
                           .textTheme
@@ -56,7 +56,9 @@ class SearchItemWidget extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              Text(film.rating.toString()),
+              Text(
+                (film.rating?.toLowerCase() != "null" ? film.rating : "") ?? "",
+              ),
               const SizedBox(width: 12),
             ],
           ),

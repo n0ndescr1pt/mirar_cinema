@@ -1,4 +1,4 @@
-import 'package:mirar/src/features/films/data/data_source/tmdb_data_source.dart';
+import 'package:mirar/src/features/films/data/data_source/kinopoisk_data_source.dart';
 import 'package:mirar/src/features/films/model/detail_model.dart';
 import 'package:mirar/src/features/films/model/dto/preview_dto.dart';
 import 'package:mirar/src/features/films/model/dto/search_dto.dart';
@@ -15,8 +15,9 @@ abstract interface class IFilmRepository {
 
 class FilmRepository implements IFilmRepository {
   final IKinopoiskDataSource _tmdbDataSource;
-  FilmRepository({required IKinopoiskDataSource tmdbDataSource})
-      : _tmdbDataSource = tmdbDataSource;
+  FilmRepository({
+    required IKinopoiskDataSource tmdbDataSource,
+  }) : _tmdbDataSource = tmdbDataSource;
 
   @override
   Future<DetailModel> fetchDetailFilm(String id) async {

@@ -18,6 +18,7 @@ class FilmBloc extends Bloc<FilmEvent, FilmState> {
         super(const FilmState.initial()) {
     on<_LoadDetailsEvent>(_loadDetails);
     on<_ClearDetailsEvent>(_clearDetails);
+   
   }
 
   _loadDetails(_LoadDetailsEvent event, Emitter<FilmState> emit) async {

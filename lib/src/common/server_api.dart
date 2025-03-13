@@ -39,7 +39,21 @@ String getPlayerString(String kinopoiskId) {
 <body>
     <div class="kinobox_player"></div>
     <script src="https://kinobox.tv/kinobox.min.js"></script>
-    <script>kbox('.kinobox_player', {search: {kinopoisk: $kinopoiskId}})</script>
+    <script>kbox('.kinobox_player', {search: {kinopoisk: $kinopoiskId}})
+var iframe = document.getElementById('player');
+
+document.getElementById('play').addEventListener('click', e => {
+  iframe.contentWindow.postMessage({ api: 'play' }, "*");
+});
+
+document.getElementById('pause').addEventListener('click', e => {
+  iframe.contentWindow.postMessage({ api: 'pause' }, "*");
+});
+
+window.addEventListener("message", function (event) {
+   console.log(event.data);
+});
+    </script>
 </body>
 </html>''';
 }

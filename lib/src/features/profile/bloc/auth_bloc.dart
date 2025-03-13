@@ -94,7 +94,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   _onCheckSession(_CheckSessionEvent event, Emitter<AuthState> emit) async {
-    emit(const AuthState.loading());
     try {
       final resultLoginModel = await _authRepository.isActiveSession();
 

@@ -106,46 +106,37 @@ extension DetailDTOMapper on DetailDTO {
   }
 }
 
-extension DetailModelMapper on DetailModel {
+extension DetailModelExtension on DetailModel {
   Map<String, dynamic> toWatchHistory(String userId) {
     return {
-      "kinopoiskId": kinopoiskId,
-      "nameRu": nameRu ?? "",
-      "nameEn": nameEn ?? "",
-      "posterUrl": posterUrl ?? "",
-      "posterUrlPreview": posterUrlPreview ?? "",
-      "ratingImdbVoteCount": ratingImdbVoteCount ?? 0,
-      "genre": genres.isNotEmpty ? genres : [],
-      "ratingKinopoisk": ratingKinopoisk ?? 0,
-      "countries": countries.isNotEmpty ? countries : [],
-      "review": reviewsCount ?? 0,
-      "userId": {
-        "__type": "Pointer",
-        "className": "_User",
-        "objectId": userId,
-      }
+      'kinopoiskId': kinopoiskId,
+      'nameRu': nameRu,
+      'nameEn': nameOriginal,
+      'posterUrl': posterUrl,
+      'posterUrlPreview': posterUrlPreview,
+      'ratingImdbVoteCount': ratingImdbVoteCount ?? 0,
+      'genre': genres,
+      'ratingKinopoisk': ratingKinopoisk ?? 0.0,
+      'countries': countries,
+      'userId': userId,
     };
   }
 }
 
-extension DetailModelReviewMapper on DetailModel {
-  Map<String, dynamic> toReviewEntry(String userId, double review) {
+extension ReviewModelExtension on DetailModel {
+  Map<String, dynamic> toReviewHistoryMap(String userId, double review) {
     return {
-      "kinopoiskId": kinopoiskId,
-      "nameRu": nameRu ?? "",
-      "nameEn": nameEn ?? "",
-      "review": review,
-      "posterUrl": posterUrl ?? "",
-      "posterUrlPreview": posterUrlPreview ?? "",
-      "ratingImdbVoteCount": ratingImdbVoteCount ?? 0,
-      "genre": genres.isNotEmpty ? genres : [],
-      "ratingKinopoisk": ratingKinopoisk ?? 0,
-      "countries": countries.isNotEmpty ? countries : [],
-      "userId": {
-        "__type": "Pointer",
-        "className": "_User",
-        "objectId": userId,
-      }
+      'kinopoiskId': kinopoiskId,
+      'nameRu': nameRu,
+      'nameEn': nameOriginal,
+      'review': review,
+      'posterUrl': posterUrl,
+      'posterUrlPreview': posterUrlPreview,
+      'ratingImdbVoteCount': ratingImdbVoteCount,
+      'genre': genres,
+      'ratingKinopoisk': ratingKinopoisk,
+      'countries': countries,
+      'userId': userId,
     };
   }
 }

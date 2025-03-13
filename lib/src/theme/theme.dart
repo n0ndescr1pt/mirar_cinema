@@ -10,13 +10,14 @@ class CustomTheme {
 
   static ThemeData get darkTheme {
     return ThemeData(
+      progressIndicatorTheme: ProgressIndicatorThemeData(color: Colors.white),
       textTheme: textTheme,
       colorScheme: const ColorScheme.dark(),
     );
   }
 }
 
-enum AppTheme {light, dark}
+enum AppTheme { light, dark }
 
 const textTheme = TextTheme(
   displayLarge: TextStyle(

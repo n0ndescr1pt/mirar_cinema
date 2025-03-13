@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mirar/src/app_routes.dart';
 import 'package:mirar/src/features/profile/bloc/auth_bloc.dart';
 import 'package:mirar/src/features/profile/view/widget/list_element_widget.dart';
+import 'package:mirar/src/features/profile/view/unauthenticated_screen.dart';
+import 'package:mirar/src/theme/app_colors.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -11,96 +11,114 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      backgroundColor: Colors.black,
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           return state.maybeWhen(
             login: (loginModel) {
-              return Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Column(
-                  children: [
-                    Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.grey,
-                            shape: BoxShape.circle,
-                          ),
-                          height: 100,
-                          width: 100,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(loginModel.username),
-                        const SizedBox(height: 2),
-                        Text(
-                          loginModel.email,
-                          style:
-                              TextStyle(color: Colors.white.withOpacity(0.6)),
-                        ),
-                      ],
+              return Stack(
+                children: [
+                  Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xFF000000),
+                          Color(0xFF0D0D0D),
+                          Color(0xFF1A1A1A),
+                          Color(
+                              0xFF262626),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        stops: [0.1, 0.4, 0.7, 1.0],
+                      ),
                     ),
-                    const SizedBox(height: 26),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey[600],
-                          borderRadius: BorderRadius.circular(16)),
+                  ),
+                  SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
                       child: Column(
                         children: [
-                          MenuItemWidget(
-                            title: 'Друзья',
-                            onTap: () {},
+                          Column(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  shape: BoxShape.circle,
+                                ),
+                                height: 100,
+                                width: 100,
+                              ),
+                              const SizedBox(height: 16),
+                              Text(loginModel.username),
+                              const SizedBox(height: 2),
+                              Text(
+                                loginModel.email,
+                                style: TextStyle(
+                                    color: Colors.white.withOpacity(0.6)),
+                              ),
+                            ],
                           ),
-                          Divider(
-                            height: 0,
-                            color: Colors.grey[700],
+                          const SizedBox(height: 26),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: AppColors.activeIconBackground,
+                                borderRadius: BorderRadius.circular(16)),
+                            child: Column(
+                              children: [
+                                MenuItemWidget(
+                                  title: 'Друзья',
+                                  onTap: () {},
+                                ),
+                                Divider(
+                                  height: 0,
+                                  color: Colors.grey[900],
+                                ),
+                                MenuItemWidget(
+                                  title: 'Статистика',
+                                  onTap: () {},
+                                ),
+                                Divider(
+                                  height: 0,
+                                  color: Colors.grey[900],
+                                ),
+                                MenuItemWidget(
+                                  title: 'Настройки',
+                                  onTap: () {},
+                                ),
+                                Divider(
+                                  height: 0,
+                                  color: Colors.grey[900],
+                                ),
+                                MenuItemWidget(
+                                  title: 'Поддержка',
+                                  onTap: () {},
+                                ),
+                              ],
+                            ),
                           ),
-                          MenuItemWidget(
-                            title: 'Статистика',
-                            onTap: () {},
-                          ),
-                          Divider(
-                            height: 0,
-                            color: Colors.grey[700],
-                          ),
-                          MenuItemWidget(
-                            title: 'Настройки',
-                            onTap: () {},
-                          ),
-                          Divider(
-                            height: 0,
-                            color: Colors.grey[700],
-                          ),
-                          MenuItemWidget(
-                            title: 'Поддержка',
-                            onTap: () {},
-                          ),
+                          Spacer(),
+                          TextButton(
+                              onPressed: () {
+                                context
+                                    .read<AuthBloc>()
+                                    .add(AuthEvent.logout());
+                              },
+                              child: Text(
+                                "Выйти из аккаунта",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                              ))
                         ],
                       ),
                     ),
-                    Spacer(),
-                    TextButton(
-                        onPressed: () {
-                          context.read<AuthBloc>().add(AuthEvent.logout());
-                        },
-                        child: Text(
-                          "Выйти из аккаунта",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ))
-                  ],
-                ),
+                  ),
+                ],
               );
             },
             orElse: () {
-              return Center(
-                child: TextButton(
-                    onPressed: () {
-                      context.pushNamed(AppRoute.login.name);
-                    },
-                    child: Text(
-                        "Чтобы открыть все функции зарегистрируйтесь или войдите в аккаунт")),
-              );
+              return UnauthenticatedScreen();
             },
           );
         },

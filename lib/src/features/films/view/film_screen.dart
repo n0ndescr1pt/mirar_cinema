@@ -2,10 +2,12 @@ import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mirar/src/common/server_api.dart';
 import 'package:mirar/src/features/films/bloc/film/film_bloc.dart';
 import 'package:mirar/src/features/films/view/widgets/description_block.dart';
+import 'package:mirar/src/features/profile/bloc/auth_bloc.dart';
+import 'package:mirar/src/features/review/bloc/review_bloc/review_bloc.dart';
+import 'package:mirar/src/features/review/bloc/watch_history_bloc/watch_history_bloc.dart';
 
 class FilmScreen extends StatefulWidget {
   final String kinoposikId;
@@ -34,6 +36,7 @@ class _FilmScreenState extends State<FilmScreen>
   @override
   void initState() {
     super.initState();
+
     _initializeFile();
     createFile('aboba.html', getPlayerString(widget.kinoposikId));
     context
@@ -80,6 +83,19 @@ class _FilmScreenState extends State<FilmScreen>
             listener: (BuildContext context, FilmState state) {
               state.whenOrNull(
                 loaded: (film) {
+                  Future.delayed(Duration(minutes: 2)).then((e) {
+                    if (context.read<AuthBloc>().loginModel != null) {
+                      context.read<WatchHistoryBloc>().add(
+                          WatchHistoryEvent.addWatchHistory(
+                              film: film,
+                              userId: context
+                                  .read<AuthBloc>()
+                                  .loginModel!
+                                  .objectID));
+                    }
+
+                    updateLists(context);
+                  });
                   AppMetrica.reportEventWithMap('OpenFilm', {
                     "filmName": film.nameRu ?? "",
                     "filmId": film.kinopoiskId
@@ -136,7 +152,7 @@ class _FilmScreenState extends State<FilmScreen>
                                     if (film.year != null &&
                                         film.genres.length > 1)
                                       Text(
-                                        "${film.year.toString()} ${film.genres.sublist(0, 2).join(', ')}",
+                                        "${film.year.toString()} ${film.genres.take(2).join(', ')}",
                                         style: TextStyle(
                                             fontSize: 16,
                                             color:
@@ -164,6 +180,9 @@ class _FilmScreenState extends State<FilmScreen>
                               width: 600,
                               height: 240,
                               child: InAppWebView(
+                                onConsoleMessage: (controller, consoleMessage) {
+                                  print("asd ${consoleMessage}");
+                                },
                                 initialUrlRequest: URLRequest(
                                   url: WebUri(
                                       'http://127.0.0.1:8081/aboba.html'),
@@ -190,7 +209,7 @@ class _FilmScreenState extends State<FilmScreen>
                                     supportZoom: false,
                                     cacheEnabled: true),
                                 onWebViewCreated:
-                                    (InAppWebViewController controller) {
+                                    (InAppWebViewController controller) async {
                                   webView = controller;
                                 },
                               ),
@@ -206,71 +225,13 @@ class _FilmScreenState extends State<FilmScreen>
       ),
     );
   }
-}
 
-Widget asd(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      leading: IconButton(
-          onPressed: () {
-            //setState(() {
-            // showPlayer = false;
-            //});
-            context.pop();
-          },
-          icon: const Icon(Icons.arrow_back)),
-    ),
-    body: SingleChildScrollView(
-      child: Column(
-        children: [
-          BlocBuilder<FilmBloc, FilmState>(
-            builder: (context, state) {
-              return state.maybeWhen(
-                orElse: () => const Text("Loading"),
-                loaded: (film) => Column(
-                  children: [
-                    Text(film.nameRu ?? ""),
-                    Text(film.description ?? ""),
-                    Text(film.ratingImdb.toString()),
-                  ],
-                ),
-              );
-            },
-          ),
-          // if (showPlayer && _fileCreated)
-          SizedBox(
-            width: 600,
-            height: 240,
-            child: InAppWebView(
-              initialUrlRequest: URLRequest(
-                url: WebUri('http://127.0.0.1:8080/aboba.html'),
-              ),
-              shouldInterceptRequest: (controller, request) async {
-                String url = request.url.toString();
-                print("aaaaaa             $url");
-                //for (String domain in blockedDomains) {
-                //  if (url.contains(domain)) {
-                //    print("Blocked request to $url");
-//
-                //    return WebResourceResponse(
-                //      contentType: "text/plain",
-                //      contentEncoding: "utf-8",
-                //    );
-                //  }
-                //}
-                return null;
-              },
-              initialSettings: InAppWebViewSettings(
-                  transparentBackground: true,
-                  supportZoom: false,
-                  cacheEnabled: false),
-              onWebViewCreated: (InAppWebViewController controller) {
-                // webView = controller;
-              },
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
+  void updateLists(BuildContext context) {
+    if (context.read<AuthBloc>().loginModel != null) {
+      context.read<WatchHistoryBloc>().add(WatchHistoryEvent.getWatchHistory(
+          userId: context.read<AuthBloc>().loginModel!.objectID));
+      context.read<ReviewBloc>().add(ReviewEvent.getReviewMovie(
+          userId: context.read<AuthBloc>().loginModel!.objectID));
+    }
+  }
 }
