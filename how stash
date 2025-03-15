@@ -1,0 +1,37 @@
+[33md975619[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/films[m[33m, [m[1;31morigin/feature/films[m[33m)[m HEAD@{0}: checkout: moving from feature/films to feature/films
+[33md975619[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/films[m[33m, [m[1;31morigin/feature/films[m[33m)[m HEAD@{1}: checkout: moving from feature/home to feature/films
+[33m496bf10[m[33m ([m[1;31morigin/feature/home[m[33m, [m[1;32mfeature/home[m[33m)[m HEAD@{2}: reset: moving to HEAD
+[33m496bf10[m[33m ([m[1;31morigin/feature/home[m[33m, [m[1;32mfeature/home[m[33m)[m HEAD@{3}: checkout: moving from feature/films to feature/home
+[33md975619[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/films[m[33m, [m[1;31morigin/feature/films[m[33m)[m HEAD@{4}: reset: moving to HEAD
+[33md975619[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/films[m[33m, [m[1;31morigin/feature/films[m[33m)[m HEAD@{5}: commit: profile screen
+[33mbc4d1d4[m HEAD@{6}: commit: add login and google sign in
+[33m917e5de[m HEAD@{7}: commit: add pagination
+[33mb8f1b96[m HEAD@{8}: commit: fix search
+[33mf12c2df[m HEAD@{9}: commit: add appmetrica
+[33m8989396[m HEAD@{10}: commit: fix errors and done film screen
+[33m5ad9f29[m HEAD@{11}: commit: fix player
+[33meae943f[m HEAD@{12}: pull --tags origin feature/films: Fast-forward
+[33mb69b88a[m HEAD@{13}: commit: film
+[33me23cc2d[m HEAD@{14}: commit: adblock
+[33m985905d[m HEAD@{15}: commit: acho
+[33mad50fa5[m HEAD@{16}: commit: rework search bar
+[33m6964b26[m HEAD@{17}: commit: search feature
+[33m8fdcc61[m HEAD@{18}: commit: abob
+[33md4d4b10[m HEAD@{19}: pull --tags origin feature/films: Fast-forward
+[33m6418ad3[m HEAD@{20}: commit: lol
+[33m393796c[m HEAD@{21}: commit: fix
+[33mee7e214[m HEAD@{22}: commit: feature films
+[33m8f5deb9[m[33m ([m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{23}: checkout: moving from develop to feature/films
+[33m8f5deb9[m[33m ([m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m HEAD@{24}: pull --tags origin develop: Merge made by the 'ort' strategy.
+[33m84e5c6f[m HEAD@{25}: commit: gitignore
+[33m39c012d[m HEAD@{26}: reset: moving to HEAD
+[33m39c012d[m HEAD@{27}: checkout: moving from feature/home to develop
+[33m496bf10[m[33m ([m[1;31morigin/feature/home[m[33m, [m[1;32mfeature/home[m[33m)[m HEAD@{28}: reset: moving to HEAD
+[33m496bf10[m[33m ([m[1;31morigin/feature/home[m[33m, [m[1;32mfeature/home[m[33m)[m HEAD@{29}: checkout: moving from develop to feature/home
+[33m39c012d[m HEAD@{30}: commit: chill
+[33md83150c[m HEAD@{31}: commit (merge): Merge branch 'develop' of https://github.com/n0ndescr1pt/mirar into
+[33m88bc82c[m HEAD@{32}: commit: abc
+[33mfc8eba6[m HEAD@{33}: checkout: moving from develop to develop
+[33mfc8eba6[m HEAD@{34}: checkout: moving from develop to develop
+[33mfc8eba6[m HEAD@{35}: checkout: moving from main to develop
+[33m2bf6f94[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{36}: clone: from https://github.com/n0ndescr1pt/mirar.git
