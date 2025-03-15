@@ -16,6 +16,7 @@ migrate_working_dir/
 *.iws
 .idea/
 
+*.env
 
 /macos
 /web
@@ -40,6 +41,10 @@ migrate_working_dir/
 .pub/
 /build/
 
+/linux
+/macos
+/web
+/windows
 # Symbolication related
 app.*.symbols
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mirar/src/app_routes.dart';
 import 'package:mirar/src/common/server_api.dart';
 import 'package:mirar/src/features/profile/bloc/auth_bloc.dart';
@@ -15,7 +16,6 @@ import 'package:mirar/src/features/review/data/data_source/review_data_source.da
 import 'package:mirar/src/features/review/data/data_source/wat%D1%81h_history_data_source.dart';
 import 'package:mirar/src/features/review/data/review_repository.dart';
 import 'package:mirar/src/features/review/data/watch_history_repository.dart';
-import 'package:mirar/src/resources/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:mirar/src/common/dio/dio_api.dart';
 import 'package:mirar/src/features/films/bloc/film/film_bloc.dart';
@@ -118,11 +118,11 @@ class ReposProviders extends StatelessWidget {
 
     final apiProvider = ApiProvider(
         talker: talker,
-        baseUrl: baseUrl,
+        baseUrl: dotenv.env["KINOPOISK_BASE_URL"]!,
         prefs: context.read<SharedPreferences>());
     final apiProviderBack4App = ApiProvider(
         talker: talker,
-        baseUrl: "https://parseapi.back4app.com",
+        baseUrl: dotenv.env["PARSE_API_BASE_URL"]!,
         prefs: context.read<SharedPreferences>());
     return MultiRepositoryProvider(
       providers: [
