@@ -26,7 +26,7 @@ class KinopoiskDataSource implements IKinopoiskDataSource {
         requestType: RequestType.get,
         queryParameters: {
           "type": "TOP_250_MOVIES",
-          "api_key": "0a913bff75919031103208bb1b2963ef",
+        
           "page": page,
         },
       );
@@ -50,7 +50,6 @@ class KinopoiskDataSource implements IKinopoiskDataSource {
       final response = await _apiProvider.apiCall("/api/v2.2/films",
           requestType: RequestType.get,
           queryParameters: {
-            "api_key": "0a913bff75919031103208bb1b2963ef",
             "order": "RATING",
             "ratingFrom": 9.0,
             "type": "FILM",
@@ -74,7 +73,7 @@ class KinopoiskDataSource implements IKinopoiskDataSource {
         "/api/v2.2/films/premieres",
         requestType: RequestType.get,
         queryParameters: {
-          "api_key": "0a913bff75919031103208bb1b2963ef",
+        
           "year": DateTime.now().year,
           "month": monthConverter(DateTime.now().month + 2).toUpperCase(),
         },

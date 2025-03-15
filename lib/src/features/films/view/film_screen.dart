@@ -5,7 +5,6 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:mirar/src/common/server_api.dart';
 import 'package:mirar/src/features/films/bloc/film/film_bloc.dart';
 import 'package:mirar/src/features/films/view/widgets/add_review_bottomsheet.dart';
-import 'package:mirar/src/features/films/view/widgets/custom_slider.dart';
 import 'package:mirar/src/features/films/view/widgets/description_block.dart';
 import 'package:mirar/src/features/profile/bloc/auth_bloc.dart';
 import 'package:mirar/src/features/review/bloc/review_bloc/review_bloc.dart';
