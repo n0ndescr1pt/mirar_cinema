@@ -4,10 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:mirar/src/common/server_api.dart';
 import 'package:mirar/src/features/films/bloc/film/film_bloc.dart';
+import 'package:mirar/src/features/films/view/widgets/add_review_bottomsheet.dart';
+import 'package:mirar/src/features/films/view/widgets/custom_slider.dart';
 import 'package:mirar/src/features/films/view/widgets/description_block.dart';
 import 'package:mirar/src/features/profile/bloc/auth_bloc.dart';
 import 'package:mirar/src/features/review/bloc/review_bloc/review_bloc.dart';
 import 'package:mirar/src/features/review/bloc/watch_history_bloc/watch_history_bloc.dart';
+import 'package:mirar/src/theme/app_colors.dart';
 
 class FilmScreen extends StatefulWidget {
   final String kinoposikId;
@@ -51,6 +54,7 @@ class _FilmScreenState extends State<FilmScreen>
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
@@ -63,7 +67,7 @@ class _FilmScreenState extends State<FilmScreen>
                   return Positioned(
                       child: Container(
                     width: double.infinity,
-                    height: 400,
+                    height: 900,
                     color: Colors.black,
                   ));
                 },
@@ -124,101 +128,180 @@ class _FilmScreenState extends State<FilmScreen>
                   },
                 ),
               ),
-              if (showPlayer && _fileCreated)
-                SliverToBoxAdapter(
-                  child: DecoratedBox(
-                    decoration: const BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                      ),
+              SliverToBoxAdapter(
+                child: DecoratedBox(
+                  decoration: const BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
                     ),
-                    child: Column(
-                      children: [
-                        BlocBuilder<FilmBloc, FilmState>(
-                          builder: (context, state) {
-                            return state.maybeWhen(
-                              orElse: () => const Text("Loading"),
-                              loaded: (film) => Padding(
-                                padding: EdgeInsets.only(
-                                    top: 36, bottom: 8, left: 12, right: 12),
-                                child: Column(
-                                  children: [
+                  ),
+                  child: Column(
+                    children: [
+                      BlocBuilder<FilmBloc, FilmState>(
+                        builder: (context, state) {
+                          return state.maybeWhen(
+                            orElse: () => const Text("Loading"),
+                            loaded: (film) => Padding(
+                              padding: EdgeInsets.only(
+                                  top: 36, bottom: 8, left: 12, right: 12),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    film.nameRu ?? '',
+                                    style: TextStyle(fontSize: 26),
+                                  ),
+                                  if (film.year != null &&
+                                      film.genres.length > 1)
                                     Text(
-                                      film.nameRu ?? '',
-                                      style: TextStyle(fontSize: 26),
-                                    ),
-                                    if (film.year != null &&
-                                        film.genres.length > 1)
-                                      Text(
-                                        "${film.year.toString()} ${film.genres.take(2).join(', ')}",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color:
-                                                Colors.white.withOpacity(0.7)),
-                                      ),
-                                    Text(
-                                      "${film.filmLength != null ? "${(film.filmLength! ~/ 60)} ч ${(film.filmLength! % 60).toStringAsFixed(0)} мин" : ""}  ${film.ratingAgeLimits != null ? "${film.ratingAgeLimits!.replaceFirst("age", "")}+" : ""}",
+                                      "${film.year.toString()} ${film.genres.take(2).join(', ')}",
                                       style: TextStyle(
                                           fontSize: 16,
                                           color: Colors.white.withOpacity(0.7)),
                                     ),
-                                    const SizedBox(height: 36),
-                                    DescriptionBlock(
-                                        description: film.description ?? ""),
-                                    const SizedBox(height: 16),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                        if (showPlayer && _fileCreated)
-                          RepaintBoundary(
-                            child: SizedBox(
-                              width: 600,
-                              height: 240,
-                              child: InAppWebView(
-                                onConsoleMessage: (controller, consoleMessage) {
-                                  print("asd ${consoleMessage}");
-                                },
-                                initialUrlRequest: URLRequest(
-                                  url: WebUri(
-                                      'http://127.0.0.1:8081/aboba.html'),
-                                ),
-                                shouldInterceptRequest:
-                                    (controller, request) async {
-                                  String url = request.url.toString();
-                                  print("aaaaaa             $url");
-                                  for (String domain in blockedDomains) {
-                                    if (url.contains(domain)) {
-                                      print("Blocked request to $url");
-
-                                      return WebResourceResponse(
-                                        contentType: "text/plain",
-                                        contentEncoding: "utf-8",
-                                      );
-                                    }
-                                  }
-                                  return null;
-                                },
-                                initialSettings: InAppWebViewSettings(
-                                    useHybridComposition: false,
-                                    transparentBackground: true,
-                                    supportZoom: false,
-                                    cacheEnabled: true),
-                                onWebViewCreated:
-                                    (InAppWebViewController controller) async {
-                                  webView = controller;
-                                },
+                                  Text(
+                                    "${film.filmLength != null ? "${(film.filmLength! ~/ 60)} ч ${(film.filmLength! % 60).toStringAsFixed(0)} мин" : ""}  ${film.ratingAgeLimits != null ? "${film.ratingAgeLimits!.replaceFirst("age", "")}+" : ""}",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.white.withOpacity(0.7)),
+                                  ),
+                                  const SizedBox(height: 36),
+                                  DescriptionBlock(
+                                      description: film.description ?? ""),
+                                  const SizedBox(height: 16),
+                                ],
                               ),
                             ),
+                          );
+                        },
+                      ),
+                      if (showPlayer && _fileCreated)
+                        RepaintBoundary(
+                          child: SizedBox(
+                            width: 600,
+                            height: 240,
+                            child: InAppWebView(
+                              onConsoleMessage: (controller, consoleMessage) {
+                                print("asd ${consoleMessage}");
+                              },
+                              initialUrlRequest: URLRequest(
+                                url: WebUri('http://127.0.0.1:8081/aboba.html'),
+                              ),
+                              shouldInterceptRequest:
+                                  (controller, request) async {
+                                String url = request.url.toString();
+                                print("aaaaaa             $url");
+                                for (String domain in blockedDomains) {
+                                  if (url.contains(domain)) {
+                                    print("Blocked request to $url");
+
+                                    return WebResourceResponse(
+                                      contentType: "text/plain",
+                                      contentEncoding: "utf-8",
+                                    );
+                                  }
+                                }
+                                return null;
+                              },
+                              initialSettings: InAppWebViewSettings(
+                                  useHybridComposition: false,
+                                  transparentBackground: true,
+                                  supportZoom: false,
+                                  cacheEnabled: true),
+                              onWebViewCreated:
+                                  (InAppWebViewController controller) async {
+                                webView = controller;
+                              },
+                            ),
                           ),
-                      ],
-                    ),
+                        ),
+                      BlocBuilder<FilmBloc, FilmState>(
+                        builder: (context, state) {
+                          return state.maybeWhen(
+                            orElse: () {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            },
+                            loaded: (film) {
+                              return Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Container(
+                                  width: double.infinity,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 20,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.activeIconBackground
+                                        .withOpacity(0.7),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      // Сам рейтинг
+                                      Text(
+                                        // Если нет рейтинга, показываем --
+                                        film.ratingKinopoisk?.toString() ??
+                                            '--',
+                                        style: const TextStyle(
+                                          fontSize: 42,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.green,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+
+                                      // Кол-во голосов
+                                      Text(
+                                        "${film.ratingKinopoiskVoteCount ?? 0} оценок",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.white.withOpacity(0.7),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 16),
+
+                                      // Кнопка "Оценить"
+                                      SizedBox(
+                                        height: 50,
+                                        child: OutlinedButton.icon(
+                                          style: OutlinedButton.styleFrom(
+                                            foregroundColor: Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(30),
+                                            ),
+                                            side: const BorderSide(
+                                                color: Colors.white),
+                                            elevation: 2,
+                                          ),
+                                          label: const Text(
+                                            'Оценить',
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                          onPressed: () {
+                                            showCustomBottomSheet(
+                                                context, film);
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
+              ),
             ],
           ),
         ],
