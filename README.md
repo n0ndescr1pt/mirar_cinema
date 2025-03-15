@@ -1,11 +1,32 @@
 # Mirar
 Mirar is a mobile application for streaming movies, tracking watch history, and rating films.
 
+## Versions
+  - Flutter version 3.27.2
+  - Dart version 3.6.1
+  - DevTools version 2.40.2
+
+## Installation guide
+
+1. Fill `.env`
+  ```
+  APP_ID = {back4app ApplicationIdKey}
+  REST_API_KEY = {back4app RestApiKey}
+  APPMETRICA_API_KEY = {AppmetricaApiKey}
+  CLIENT_API_KEY = {back4app ClientApiKey}
+  KINIPOISK_API_KEY = {Kinopoisk API Unofficial key}
+  PARSE_API_BASE_URL = {back4app base url}
+  KINOPOISK_BASE_URL = {Kinopoisk API Unofficial base url}
+```
+2. `dart run build_runner build --delete-conflicting-outputs --verbose`
+3. Run app
+
+
+## Screenshot
 <table>
   <thead>
     <tr>
       <th>Screen</th>
-      <th>Screenshot</th>
     </tr>
   </thead>
   <tbody>
