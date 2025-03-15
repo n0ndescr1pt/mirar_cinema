@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mirar/src/common/dio/dio_exceptions.dart';
 import 'package:mirar/src/resources/constants.dart';
-import 'package:mirar/src/resources/key.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
@@ -84,10 +84,10 @@ class ApiProvider {
 
     options.headers.addAll({
       'accept': 'application/json',
-      'X-Parse-Application-Id': applicationIdKey,
-      'X-Parse-REST-API-Key': restApiKey,
+      'X-Parse-Application-Id': dotenv.env["APP_ID"]!,
+      'X-Parse-REST-API-Key':dotenv.env["REST_API_KEY"]!,
       'X-Parse-Revocable-Session': "1",
-      'X-API-KEY': kinopoiskApiKey,
+      'X-API-KEY': dotenv.env['KINIPOISK_API_KEY'],
       ...currentSession
     });
   }
