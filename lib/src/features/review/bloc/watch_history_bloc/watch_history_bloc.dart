@@ -25,6 +25,8 @@ class WatchHistoryBloc extends Bloc<WatchHistoryEvent, WatchHistoryState> {
       _AddWatchHistoryEvent event, Emitter<WatchHistoryState> emit) async {
     try {
       await _historyRepository.addWatchHistory(event.film, event.userId);
+      final result = await _historyRepository.getWatchHistory(event.userId);
+      emit(WatchHistoryState.loaded(watchHistory: result));
     } catch (e, st) {
       _talker.error(e, st);
     }
