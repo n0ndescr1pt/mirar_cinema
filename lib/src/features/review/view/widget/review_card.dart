@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:mirar/src/app_routes.dart';
+import 'package:mirar/src/features/films/utils/utils.dart';
 import 'package:mirar/src/features/review/model/review_model.dart';
 
 class ReviewCard extends StatelessWidget {
@@ -25,7 +26,6 @@ class ReviewCard extends StatelessWidget {
               DateFormat('d MMMM yyyy', 'ru').format(film.updateDate),
             ),
             const SizedBox(height: 8),
-            // Используем LayoutBuilder для получения конечных ограничений
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -38,7 +38,7 @@ class ReviewCard extends StatelessWidget {
                       "https://avatars.mds.yandex.net/i?id=0aee8c6e0ef9c5161691cc3c1c3b5361_l-5313598-images-thumbs&n=13",
                 ),
                 const SizedBox(width: 12),
-                // Остальная информация занимает оставшееся пространство
+
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,8 +92,8 @@ class ReviewCard extends StatelessWidget {
                           const SizedBox(width: 8),
                           Container(
                             padding: const EdgeInsets.all(7),
-                            decoration: const BoxDecoration(
-                              color: Colors.green,
+                            decoration: BoxDecoration(
+                              color: getColorByIndex(film.review.toInt()),
                               shape: BoxShape.circle,
                             ),
                             child: Text(

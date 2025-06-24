@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mirar/src/features/profile/bloc/auth_bloc.dart';
 import 'package:mirar/src/features/profile/view/widget/list_element_widget.dart';
 import 'package:mirar/src/features/profile/view/unauthenticated_screen.dart';
+import 'package:mirar/src/features/statistics/statistics.dart';
 import 'package:mirar/src/theme/app_colors.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -25,8 +26,7 @@ class ProfileScreen extends StatelessWidget {
                           Color(0xFF000000),
                           Color(0xFF0D0D0D),
                           Color(0xFF1A1A1A),
-                          Color(
-                              0xFF262626),
+                          Color(0xFF262626),
                         ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -67,26 +67,27 @@ class ProfileScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(16)),
                             child: Column(
                               children: [
-                                MenuItemWidget(
-                                  title: 'Друзья',
-                                  onTap: () {},
-                                ),
+                               
                                 Divider(
                                   height: 0,
                                   color: Colors.grey[900],
                                 ),
                                 MenuItemWidget(
                                   title: 'Статистика',
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => StatisticsScreen(
+                                        userId: loginModel.objectID,
+                                      ),
+                                    ));
+                                  },
                                 ),
                                 Divider(
                                   height: 0,
                                   color: Colors.grey[900],
                                 ),
-                                MenuItemWidget(
-                                  title: 'Настройки',
-                                  onTap: () {},
-                                ),
+                               
                                 Divider(
                                   height: 0,
                                   color: Colors.grey[900],

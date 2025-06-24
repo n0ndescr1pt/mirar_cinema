@@ -28,6 +28,8 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
       print(event.review);
       await _reviewRepository.addReview(
           userId: event.userId, film: event.film, review: event.review);
+      final result = await _reviewRepository.getReview(userId: event.userId);
+      emit(ReviewState.loaded(reviews: result));
     } catch (e, st) {
       _talker.error(e, st);
     }

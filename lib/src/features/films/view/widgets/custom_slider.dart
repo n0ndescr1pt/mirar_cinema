@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mirar/src/features/films/model/detail_model.dart';
+import 'package:mirar/src/features/films/utils/utils.dart';
 import 'package:mirar/src/features/profile/bloc/auth_bloc.dart';
 import 'package:mirar/src/features/review/bloc/review_bloc/review_bloc.dart';
 
@@ -54,7 +55,7 @@ class _NumberSliderScreen extends State<CustomSlider> {
                     fontSize: isSelected ? 48 : 32,
                     fontWeight: FontWeight.bold,
                     color: isSelected
-                        ? _getColorByIndex(_currentNumber)
+                        ? getColorByIndex(_currentNumber)
                         : Colors.white,
                   ),
                 ),
@@ -91,6 +92,7 @@ class _NumberSliderScreen extends State<CustomSlider> {
                 ));
               }
               if (context.mounted) {
+                updateLists(context);
                 context.pop();
               }
             },
@@ -98,15 +100,5 @@ class _NumberSliderScreen extends State<CustomSlider> {
         ),
       ],
     );
-  }
-
-  Color _getColorByIndex(int index) {
-    if (index == 5) {
-      return Colors.grey;
-    } else if (index < 5) {
-      return Colors.red;
-    } else {
-      return Colors.green;
-    }
   }
 }
