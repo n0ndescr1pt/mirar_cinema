@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:mirar/src/common/server_api.dart';
 import 'package:mirar/src/features/films/bloc/film/film_bloc.dart';
+import 'package:mirar/src/features/films/utils/utils.dart';
 import 'package:mirar/src/features/films/view/widgets/add_review_bottomsheet.dart';
 import 'package:mirar/src/features/films/view/widgets/description_block.dart';
 import 'package:mirar/src/features/profile/bloc/auth_bloc.dart';
-import 'package:mirar/src/features/review/bloc/review_bloc/review_bloc.dart';
 import 'package:mirar/src/features/review/bloc/watch_history_bloc/watch_history_bloc.dart';
 import 'package:mirar/src/theme/app_colors.dart';
 
@@ -32,6 +32,8 @@ class _FilmScreenState extends State<FilmScreen>
     'https://vast.ufouxbwn.com',
     'aj2635.bid',
     "/mob.playjusting.com/s",
+    "adam.ozon.ru/pixel",
+    "https://aj1907.online",
   ];
   bool showPlayer = true;
   late InAppWebViewController webView;
@@ -308,12 +310,5 @@ class _FilmScreenState extends State<FilmScreen>
     );
   }
 
-  void updateLists(BuildContext context) {
-    if (context.read<AuthBloc>().loginModel != null) {
-      context.read<WatchHistoryBloc>().add(WatchHistoryEvent.getWatchHistory(
-          userId: context.read<AuthBloc>().loginModel!.objectID));
-      context.read<ReviewBloc>().add(ReviewEvent.getReviewMovie(
-          userId: context.read<AuthBloc>().loginModel!.objectID));
-    }
-  }
+
 }
